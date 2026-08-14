@@ -4,7 +4,7 @@
 
 > **AI Auto Clip From YouTube — 100% FREE (Until I Change My Mind)**
 
-**Release:** [Download MT-CLIP Releases](https://github.com/dafaprasetya/MT-CLIP/releases/?utm_source=chatgpt.com)
+**Release:** [Download MT-CLIP Releases](https://github.com/dafaprasetya/MT-CLIP/releases)
 
 ---
 
