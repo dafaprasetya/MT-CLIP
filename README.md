@@ -10,8 +10,6 @@
 
 # 🇮🇩 Bahasa Indonesia
 
-# 🇮🇩 Bahasa Indonesia
-
 MT-CLIP adalah aplikasi untuk **mengubah video YouTube menjadi short clips secara otomatis menggunakan AI**.
 
 Cukup masukkan link YouTube, lalu MT-CLIP akan menangani proses download, transcription, analisis AI, pemilihan momen terbaik, hingga rendering video secara otomatis.
