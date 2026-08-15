@@ -1,46 +1,49 @@
 # MT-CLIP
 
-![MT-CLIP](https://github.com/dafaprasetya/MT-CLIP/blob/main/img/logo.png?raw=true)
+![MT-CLIP](https://github.com/dafaprasetya/ClipMaker-Low-Budget/blob/main/Assets/images/logo.png?raw=true)
 
 > **AI Auto Clip From YouTube — 100% FREE (Until I Change My Mind)**
 
-**Release:** [Download MT-CLIP Releases](https://github.com/dafaprasetya/MT-CLIP/releases)
+**Release:** [Download MT-CLIP Releases](https://github.com/dafaprasetya/MT-CLIP/releases/?utm_source=mt-clipper.my.id)
+
+> **Note:** Release ZIP sudah berisi file dan komponen yang dibutuhkan MT-CLIP. Kamu tidak perlu menginstall komponen internal secara manual. Cukup download release, install beberapa dependency eksternal yang diperlukan, lalu jalankan aplikasinya.
 
 ---
 
 # 🇮🇩 Bahasa Indonesia
 
-MT-CLIP adalah aplikasi untuk **mengubah video YouTube menjadi short clips secara otomatis menggunakan AI**.
+MT-CLIP adalah aplikasi yang dapat **mengubah video YouTube menjadi short clips secara otomatis menggunakan AI**.
 
-Cukup masukkan link YouTube, lalu MT-CLIP akan menangani proses download, transcription, analisis AI, pemilihan momen terbaik, hingga rendering video secara otomatis.
+Cukup masukkan link YouTube, pilih pengaturan yang kamu inginkan, dan MT-CLIP akan mencari momen menarik dari video kemudian membuatnya menjadi clip yang siap digunakan.
+
+MT-CLIP dirancang agar prosesnya semudah mungkin — **download, setup, dan langsung buat clip.**
+
+---
 
 ## Fitur
 
-* AI-powered automatic clip generation
+* AI Auto Clip dari YouTube
 * Otomatis mencari momen menarik dari video
-* Support **Ollama / Local AI**
-* Default AI model: `qwen2.5:7b`
-* Support berbagai AI provider
-* Otomatis menggunakan subtitle YouTube jika tersedia
-* Fallback ke **Whisper.cpp** jika subtitle tidak tersedia
+* Local AI dengan Ollama
+* Support berbagai AI model
 * Generate beberapa clip sekaligus
 * Pengaturan jumlah clip
-* Pengaturan durasi minimum dan maksimum clip
-* **Portrait / 9:16 clip**
-* Automatic portrait crop
+* Pengaturan durasi clip
+* Landscape dan Portrait / 9:16
+* Automatic subject tracking untuk portrait
 * Animated subtitle
 * Custom subtitle
-* Gallery untuk melihat hasil clip
-* Automatic video rendering menggunakan FFmpeg
+* Gallery untuk melihat hasil
+* Automatic video processing
 * ViralEnhance untuk membantu mencari topik dan tren yang relevan
-* Support sumber data:
+* Support sumber tren:
 
   * YouTube
   * Google Trends
   * Reddit
   * TikTok
-* Local AI processing menggunakan Ollama
-* GPU acceleration melalui backend yang didukung Ollama, termasuk Vulkan
+* GPU acceleration melalui Vulkan
+* Dapat digunakan secara lokal tanpa API AI berbayar
 
 ---
 
@@ -48,7 +51,7 @@ Cukup masukkan link YouTube, lalu MT-CLIP akan menangani proses download, transc
 
 MT-CLIP dapat berjalan pada komputer dengan spesifikasi yang cukup sederhana.
 
-Namun, proses AI, transcription, portrait crop, dan rendering video cukup berat. **Semakin besar RAM dan semakin bagus GPU, semakin cepat prosesnya.**
+Namun, proses AI dan video processing cukup berat. **Semakin besar RAM dan semakin bagus GPU, semakin cepat prosesnya.**
 
 ### Minimum
 
@@ -64,138 +67,96 @@ Namun, proses AI, transcription, portrait crop, dan rendering video cukup berat.
 * **CPU:** 6–8 Core
 * **RAM:** 16 GB atau lebih
 * **GPU:** Dedicated GPU dengan VRAM 6 GB+
-* **Storage:** SSD dengan ruang kosong yang cukup
+* **Storage:** SSD
 
-### RAM
+### Untuk hasil yang lebih cepat
 
-RAM yang lebih besar sangat membantu ketika:
+Jika ingin processing yang lebih cepat, terutama ketika menggunakan AI lokal:
 
-* Memproses video panjang
-* Menjalankan model AI lokal
-* Melakukan transcription menggunakan Whisper
-* Rendering beberapa clip
-* Menjalankan beberapa proses secara bersamaan
+**RAM**
 
-**16 GB RAM** merupakan titik awal yang nyaman untuk penggunaan sehari-hari.
+* 8 GB → Bisa digunakan
+* 16 GB → Recommended
+* 32 GB+ → Sangat nyaman untuk video panjang dan penggunaan berat
 
-Jika ingin memproses video panjang atau menjalankan model AI yang lebih besar, **32 GB RAM atau lebih** akan lebih nyaman.
+**GPU**
 
-### GPU & Vulkan
+GPU tidak wajib, tetapi sangat direkomendasikan.
 
-GPU **tidak wajib**, tetapi sangat direkomendasikan untuk mendapatkan processing time yang lebih cepat.
+GPU dengan VRAM yang lebih besar akan lebih nyaman untuk menjalankan AI model yang lebih besar.
 
-Jika GPU dan driver kamu mendukung Vulkan, Ollama dapat dijalankan menggunakan backend Vulkan.
+Contoh:
 
-Contoh di Windows:
+```text
+8 GB VRAM
+12 GB VRAM
+16 GB VRAM
+```
+
+### Vulkan
+
+Jika GPU kamu mendukung Vulkan, kamu dapat mencoba menjalankan Ollama menggunakan Vulkan untuk memanfaatkan GPU.
 
 ```bash
 set OLLAMA_VULKAN=1
 ollama serve
 ```
 
-Kemudian MT-CLIP dapat menggunakan Ollama seperti biasa.
-
-> Dukungan Vulkan dan performanya bergantung pada GPU, driver, versi Ollama, backend yang digunakan, serta model AI.
-
-GPU dengan VRAM yang lebih besar umumnya lebih nyaman untuk menjalankan model AI lokal.
-
-Contoh konfigurasi yang nyaman:
-
-```text
-CPU     : 6+ Core
-RAM     : 16–32 GB
-GPU     : 8 GB+ VRAM
-Storage : SSD
-```
-
-Namun konfigurasi tersebut **bukan requirement wajib**.
-
-MT-CLIP tetap dapat berjalan menggunakan CPU saja. Hanya saja proses AI dan transcription dapat menjadi jauh lebih lambat.
-
-### Performance Priority
-
-Jika tujuan utama kamu adalah mempercepat MT-CLIP, secara umum:
-
-```text
-GPU / Hardware Acceleration
-          ↓
-        RAM
-          ↓
-        CPU
-          ↓
-        SSD
-```
-
-Terutama untuk:
-
-```text
-Ollama
-Whisper
-Portrait Crop
-FFmpeg Rendering
-```
+> Performa Vulkan berbeda-beda tergantung GPU, driver, versi Ollama, dan model AI yang digunakan.
 
 ---
 
-# Requirements
+# Yang Dibutuhkan
 
-MT-CLIP membutuhkan beberapa software eksternal.
+Untuk menggunakan MT-CLIP dari release, kamu hanya perlu menyiapkan beberapa hal:
 
-### Required
+### 1. MT-CLIP
 
-* **Ollama** — AI local inference
-* **FFmpeg** — video processing dan rendering
-* **yt-dlp** — download video dan subtitle YouTube
-* **Whisper.cpp** — fallback transcription
+Download versi terbaru dari:
 
-### Optional
+[MT-CLIP Releases](https://github.com/dafaprasetya/MT-CLIP/releases/?utm_source=mt-clipper.my.id)
 
-* YouTube Data API v3
-* TikTok RapidAPI
-* API provider lain
+Extract ZIP ke folder yang kamu inginkan.
 
-API tersebut hanya diperlukan jika ingin menggunakan fitur **ViralEnhance** tertentu.
+**Tidak perlu mendownload file internal MT-CLIP secara terpisah.**
 
 ---
 
-# Installation
-
-## 1. Install Ollama
+### 2. Ollama
 
 Download dan install Ollama:
 
-[Download Ollama for Windows](https://ollama.com/download/windows?utm_source=chatgpt.com)
+[Download Ollama for Windows](https://ollama.com/download/windows?utm_source=mt-clipper.my.id)
 
-Setelah selesai, buka terminal:
+Setelah install, buka terminal:
 
 ```bash
 ollama pull qwen2.5:7b
 ```
 
-Cek model:
+Kemudian cek:
 
 ```bash
 ollama list
 ```
 
-Contoh:
+Jika muncul:
 
 ```text
-NAME            SIZE
-qwen2.5:7b      ~4.7 GB
+qwen2.5:7b
 ```
 
-`qwen2.5:7b` merupakan model default yang direkomendasikan untuk memulai.
+berarti model sudah siap digunakan.
 
-Tetapi kamu bebas menggunakan model lain yang kompatibel dengan Ollama.
+> Kamu bebas menggunakan AI model lain yang kompatibel. `qwen2.5:7b` digunakan sebagai rekomendasi default karena relatif ringan dan dapat dijalankan secara lokal.
 
 ---
 
-## 2. Install FFmpeg
+### 3. FFmpeg
 
 Download FFmpeg:
 
-[FFmpeg Builds by Gyan](https://www.gyan.dev/ffmpeg/builds/?utm_source=chatgpt.com)
+[FFmpeg Builds by Gyan](https://www.gyan.dev/ffmpeg/builds/?utm_source=mt-clipper.my.id)
 
 Disarankan menggunakan **Full Build**.
 
@@ -205,206 +166,114 @@ Setelah install, cek:
 ffmpeg -version
 ```
 
-Jika menggunakan Chocolatey:
-
-```bash
-choco install ffmpeg
-```
+Jika command tersebut berhasil, berarti FFmpeg sudah siap.
 
 ---
 
-## 3. Install yt-dlp
+# Setup Awal
 
-Download `yt-dlp.exe` dari repository resminya:
+Setelah semua requirement tersedia:
 
-[yt-dlp GitHub Repository](https://github.com/yt-dlp/yt-dlp?utm_source=chatgpt.com)
+1. Download MT-CLIP dari halaman Release.
+2. Extract file ZIP.
+3. Install Ollama.
+4. Download AI model yang ingin digunakan.
+5. Install FFmpeg.
+6. Jalankan MT-CLIP.
+7. Buka **Settings**.
+8. Pastikan konfigurasi AI sudah benar.
+9. Masukkan path FFmpeg jika diperlukan.
+10. Simpan pengaturan.
 
-MT-CLIP membutuhkan:
-
-```text
-yt-dlp.exe
-```
-
-Path executable dapat diatur melalui **Settings**.
-
----
-
-## 4. Install Whisper.cpp
-
-Whisper digunakan sebagai fallback apabila subtitle YouTube tidak tersedia.
-
-MT-CLIP menggunakan:
-
-```text
-whisper-cli.exe
-```
-
-dan model Whisper:
-
-```text
-ggml-large-v3-turbo-q5_0.bin
-```
-
-Path executable dan model dapat diatur melalui **Settings**.
-
-Jika subtitle YouTube tersedia, MT-CLIP dapat menggunakan subtitle tersebut terlebih dahulu sehingga proses transcription dapat menjadi jauh lebih cepat.
-
----
-
-# First Setup
-
-Jalankan MT-CLIP untuk pertama kali.
-
-Beberapa path yang perlu dikonfigurasi:
-
-```text
-yt-dlp
-FFmpeg
-Whisper CLI
-Whisper Model
-```
-
-Untuk AI lokal:
-
-```text
-AI Provider : Ollama
-AI Model    : qwen2.5:7b
-Ollama URL  : http://127.0.0.1:11434
-```
-
-Pastikan Ollama sedang berjalan sebelum melakukan proses clip.
+Setelah itu MT-CLIP siap digunakan.
 
 ---
 
 # Cara Menggunakan
 
-## 1. Buka Dashboard
+## 1. Masukkan Link YouTube
 
-Masukkan URL video YouTube yang ingin diproses.
+Buka Dashboard MT-CLIP.
 
-Contoh:
+Masukkan link video YouTube:
 
 ```text
 https://www.youtube.com/watch?v=xxxxxxxxxxx
 ```
 
-## 2. Atur Konfigurasi
+---
 
-Sebelum memulai, kamu dapat mengatur:
+## 2. Atur Pengaturan
 
+Kamu dapat mengatur beberapa hal seperti:
+
+* AI Model
 * Bahasa
 * Jumlah clip
-* Minimum clip duration
-* Maximum clip duration
-* AI provider
-* AI model
-* Context length
+* Durasi minimum
+* Durasi maksimum
 * Subtitle
 * Portrait mode
 * Subtitle style
 * ViralEnhance
 
-Untuk penggunaan pertama, konfigurasi default sudah cukup untuk mencoba MT-CLIP.
-
-## 3. Generate Clip
-
-Klik tombol:
-
-**Buat Clip**
-
-MT-CLIP akan menjalankan proses secara otomatis:
-
-```text
-YouTube URL
-     ↓
-Download Video
-     ↓
-Get Subtitle
-     ↓
-Subtitle tersedia?
-     │
-     ├── YES
-     │    ↓
-     │  Clean Transcript
-     │
-     └── NO
-          ↓
-       Extract Audio
-          ↓
-       Whisper.cpp
-          ↓
-       Transcript
-          ↓
-     AI Analysis
-          ↓
-     ViralEnhance
-          ↓
-    Clip Selection
-          ↓
-     Validate Clips
-          ↓
-    FFmpeg Rendering
-          ↓
-   Portrait Processing
-          ↓
-   Animated Subtitle
-          ↓
-       Gallery
-```
+Kalau baru pertama kali menggunakan MT-CLIP, **pengaturan default sudah cukup untuk mencoba.**
 
 ---
 
-# AI Clip Selection
+## 3. Buat Clip
 
-AI tidak hanya mencari bagian video secara random.
+Klik tombol **Buat Clip**.
 
-Model akan menganalisis transcript dan mencari bagian yang berpotensi menjadi short-form content.
+MT-CLIP akan otomatis:
 
-Beberapa faktor yang dapat dipertimbangkan:
+```text
+YouTube Video
+      ↓
+   Processing
+      ↓
+  AI Analysis
+      ↓
+Find Best Moments
+      ↓
+  Create Clips
+      ↓
+ Add Subtitle
+      ↓
+Portrait Version
+      ↓
+    Gallery
+```
 
-* Hook
-* Emotional impact
-* Standalone clarity
-* Shareability
-* Story climax
-* Humor
-* Plot twist
-* Educational value
-* Interesting statement
-* Context
-* Potential audience engagement
-
-AI juga akan mencoba menghindari clip yang:
-
-* Terlalu pendek
-* Tidak memiliki konteks
-* Terpotong di tengah pembicaraan
-* Tidak memiliki hook
-* Terlalu mirip dengan clip lainnya
+Kamu cukup menunggu sampai proses selesai.
 
 ---
 
-# Output
+# Gallery
 
-Semua hasil dapat ditemukan melalui **Gallery**.
+Setelah proses selesai, semua hasil clip dapat dilihat melalui **Gallery**.
 
-Secara umum workspace memiliki struktur:
+MT-CLIP dapat menghasilkan:
+
+### Landscape
 
 ```text
-workspace/
-├── downloads/
-├── audio/
-├── transcripts/
-└── clips/
-    └── VIDEO_ID/
-        ├── clip_01.mp4
-        ├── clip_01_portrait.mp4
-        ├── clip_02.mp4
-        ├── clip_02_portrait.mp4
-        └── ...
+16:9
 ```
 
-Format portrait ditujukan untuk:
+Cocok untuk:
+
+* YouTube
+* Video biasa
+* Podcast clips
+
+### Portrait
+
+```text
+9:16
+```
+
+Cocok untuk:
 
 * TikTok
 * YouTube Shorts
@@ -412,51 +281,42 @@ Format portrait ditujukan untuk:
 
 ---
 
-# Portrait Mode
+# AI Clip Selection
 
-MT-CLIP dapat membuat versi portrait dari video landscape.
+AI akan menganalisis isi video dan mencoba menemukan bagian yang memiliki potensi menjadi short-form content.
 
-```text
-16:9 Landscape
-      ↓
-Object Detection
-      ↓
-Automatic Subject Tracking
-      ↓
-9:16 Portrait
-```
+Beberapa faktor yang dapat dipertimbangkan:
 
-Tujuannya adalah menjaga subject utama tetap berada di dalam frame ketika video diubah menjadi format vertical.
+* Hook
+* Emotional impact
+* Interesting moments
+* Story climax
+* Humor
+* Plot twist
+* Educational value
+* Shareability
+* Context
+* Audience engagement
 
----
+AI juga berusaha menghindari clip yang:
 
-# Animated Subtitle
+* Terlalu pendek
+* Tidak memiliki konteks
+* Terpotong di tengah pembicaraan
+* Tidak memiliki hook
+* Terlalu mirip dengan clip lainnya
 
-MT-CLIP dapat membuat subtitle otomatis dengan animasi.
-
-Beberapa pengaturan yang tersedia meliputi:
-
-* Font
-* Font size
-* Text color
-* Stroke color
-* Stroke width
-* Words per chunk
-* Pop duration
-* Uppercase
-* Safe zone
-
-Subtitle dapat disesuaikan melalui Settings.
+> Hasil terbaik tetap bergantung pada kualitas video, transcript, AI model, dan pengaturan yang digunakan.
 
 ---
 
 # ViralEnhance
 
-**ViralEnhance bersifat optional.**
+**ViralEnhance adalah fitur optional.**
 
-Fitur ini memberikan konteks tambahan kepada AI mengenai topik dan tren yang sedang relevan.
+Fitur ini memberikan informasi tambahan kepada AI mengenai topik dan tren yang sedang relevan.
 
-MT-CLIP dapat menggunakan beberapa sumber:
+Sumber yang dapat digunakan:
 
 ```text
 YouTube
@@ -465,21 +325,25 @@ Reddit
 TikTok
 ```
 
-Data tersebut kemudian digunakan sebagai konteks tambahan saat AI memilih dan mengevaluasi clip.
+Tujuannya adalah membantu AI memahami apakah suatu topik atau pembahasan memiliki relevansi dengan tren saat ini.
 
-## YouTube
+---
+
+## Unlock ViralEnhance
+
+Beberapa sumber membutuhkan API key.
+
+### YouTube
 
 MT-CLIP menggunakan **YouTube Data API v3**.
 
-### Cara mendapatkan API Key
+Cara mendapatkan API Key:
 
 1. Buka Google Cloud Console.
-2. Buat project baru.
+2. Buat project.
 3. Aktifkan **YouTube Data API v3**.
 4. Buat API Key.
 5. Masukkan API Key ke Settings MT-CLIP.
-
-Konfigurasi:
 
 ```text
 Settings
@@ -487,19 +351,19 @@ Settings
 → YouTube API Key
 ```
 
-## TikTok
+---
+
+### TikTok
 
 MT-CLIP menggunakan RapidAPI untuk mendapatkan data TikTok.
 
-### Cara setup
+Cara setup:
 
 1. Register di RapidAPI.
-2. Cari API TikTok yang digunakan oleh MT-CLIP.
+2. Cari API TikTok yang digunakan.
 3. Subscribe API tersebut.
 4. Copy API Key.
-5. Masukkan API Key ke Settings.
-
-Konfigurasi:
+5. Masukkan ke Settings.
 
 ```text
 Settings
@@ -507,15 +371,15 @@ Settings
 → TikTok RapidAPI Key
 ```
 
-TikTok RapidAPI Host juga dapat dikonfigurasi jika diperlukan.
+Jika API key tidak diisi, sumber TikTok akan dilewati.
 
-Jika API key tidak tersedia, sumber TikTok akan dilewati.
+---
 
-## Google Trends
+### Google Trends
 
-Google Trends digunakan untuk mendapatkan informasi mengenai topik yang sedang populer.
+Google Trends dapat digunakan untuk mendapatkan informasi mengenai topik yang sedang populer.
 
-Konfigurasi region dapat diatur melalui:
+Region dapat diatur melalui:
 
 ```text
 Trend Region
@@ -527,60 +391,55 @@ Contoh:
 ID
 ```
 
-Google Trends tidak membutuhkan API key tambahan untuk penggunaan ini.
-
-## Reddit
-
-Reddit juga dapat digunakan sebagai sumber konteks tren.
-
-MT-CLIP menggunakan User-Agent untuk request.
-
-Contoh:
-
-```text
-clipmaker/1.0
-```
-
-Jika Reddit tidak dapat diakses, sumber Reddit akan dilewati dan proses utama tetap dapat berjalan.
+Tidak membutuhkan API key tambahan.
 
 ---
 
-# AI Providers
+### Reddit
 
-Default configuration:
+Reddit juga dapat digunakan sebagai sumber informasi tambahan mengenai topik yang sedang ramai dibicarakan.
+
+Jika sumber Reddit tidak tersedia, MT-CLIP tetap dapat berjalan seperti biasa.
+
+---
+
+# AI Provider
+
+Default:
 
 ```text
 Provider : Ollama
 Model    : qwen2.5:7b
 ```
 
-MT-CLIP dirancang agar tidak bergantung pada satu AI provider.
+MT-CLIP juga dapat menggunakan provider lain yang kompatibel dengan konfigurasi aplikasi.
 
-Tergantung konfigurasi yang digunakan, project dapat menggunakan provider seperti:
+Contohnya:
 
 * Ollama
-* OpenAI-compatible API
-* OpenRouter
 * OpenAI
+* OpenRouter
 * Gemini
 * LM Studio
 * Groq
-* Together
+* OpenAI-compatible API
 
-Untuk penggunaan gratis dan lokal, **Ollama merupakan pilihan yang direkomendasikan**.
+Untuk penggunaan gratis dan lokal, **Ollama merupakan pilihan yang direkomendasikan.**
 
 ---
 
 # Local AI
 
-Keuntungan menggunakan Ollama:
+Menggunakan Ollama memungkinkan MT-CLIP menjalankan AI secara lokal.
+
+Keuntungannya:
 
 * Tidak membutuhkan API key
-* Data transcript dapat diproses secara lokal
-* Tidak membutuhkan biaya API
+* Tidak perlu membayar API AI
+* Data dapat diproses secara lokal
 * Dapat menggunakan GPU
-* Dapat memilih berbagai model
-* Bisa digunakan tanpa cloud AI
+* Bebas memilih model
+* Tidak bergantung pada layanan cloud AI
 
 Contoh:
 
@@ -588,7 +447,7 @@ Contoh:
 ollama pull qwen2.5:7b
 ```
 
-Kemudian:
+Kemudian pada MT-CLIP:
 
 ```text
 AI Provider → Ollama
@@ -599,131 +458,50 @@ AI Model    → qwen2.5:7b
 
 # GPU Acceleration
 
-Jika GPU kamu mendukung backend yang digunakan Ollama, proses AI dapat dijalankan menggunakan GPU.
+GPU tidak wajib untuk menjalankan MT-CLIP.
 
-Untuk mencoba Vulkan:
+Namun, jika komputer memiliki GPU yang mendukung Vulkan, kamu dapat mencoba menggunakan GPU untuk mempercepat AI processing.
 
 ```bash
 set OLLAMA_VULKAN=1
 ollama serve
 ```
 
-Kemudian pastikan Ollama berjalan:
+Kemudian jalankan MT-CLIP seperti biasa.
 
-```bash
-ollama list
-```
+> Hasil dan peningkatan performa Vulkan dapat berbeda tergantung hardware dan driver.
 
-GPU yang memiliki VRAM lebih besar akan lebih nyaman ketika menggunakan model AI yang lebih besar.
-
-Contohnya:
-
-```text
-8 GB VRAM
-12 GB VRAM
-16 GB VRAM
-```
-
-Tetapi GPU bukan syarat wajib.
-
-MT-CLIP tetap dapat berjalan menggunakan CPU.
-
----
-
-# Settings
-
-## Video & Transcription
-
-```text
-Language
-Download YouTube Subtitle
-Whisper Path
-Whisper Model
-yt-dlp Path
-FFmpeg Path
-```
-
-## AI
-
-```text
-AI Provider
-AI Base URL
-AI API Key
-AI Model
-Context Length
-Chunk Window
-Max Clips / Chunk
-```
-
-## Clip
-
-```text
-Minimum Clip Duration
-Maximum Clip Duration
-Maximum Clips
-Diversity Mode
-Quote Validation
-```
-
-## Portrait & Subtitle
-
-```text
-Subtitle Font
-Font Size
-Subtitle Color
-Stroke Color
-Stroke Width
-Words Per Chunk
-Pop Duration
-Uppercase
-Safe Zone
-```
-
-## Trend
-
-```text
-YouTube API Key
-Trend Region
-Reddit User-Agent
-TikTok RapidAPI Key
-TikTok RapidAPI Host
-```
+Jika memiliki GPU dengan VRAM besar, penggunaan AI model yang lebih besar juga akan menjadi lebih memungkinkan.
 
 ---
 
 # Processing Time
 
-MT-CLIP melakukan beberapa proses yang cukup berat:
-
-```text
-Download
-    ↓
-Transcription
-    ↓
-AI Analysis
-    ↓
-Clip Selection
-    ↓
-Video Rendering
-    ↓
-Portrait Crop
-    ↓
-Subtitle Rendering
-```
-
-Karena itu, video panjang dapat membutuhkan waktu beberapa menit atau lebih.
-
-Performa sangat bergantung pada:
+Waktu processing tergantung pada:
 
 * Durasi video
 * Resolusi video
+* AI model
 * CPU
 * RAM
 * GPU
 * VRAM
-* AI model
-* Whisper model
 * Storage
+* Jumlah clip
+* Pengaturan processing
+
+Video yang panjang tentu membutuhkan waktu lebih lama.
+
+Untuk mendapatkan hasil yang lebih cepat:
+
+**Recommended:**
+
+```text
+RAM : 16 GB+
+GPU : Dedicated GPU
+VRAM: 8 GB+
+SSD : Recommended
+```
 
 ---
 
@@ -731,116 +509,62 @@ Performa sangat bergantung pada:
 
 ## Ollama tidak terhubung
 
-Pastikan Ollama sedang berjalan:
+Pastikan Ollama sudah berjalan.
+
+Coba:
 
 ```bash
 ollama list
 ```
 
-Default URL:
+Pastikan model yang digunakan sudah tersedia.
 
-```text
-http://127.0.0.1:11434
-```
-
-Pastikan model yang dipilih sudah tersedia:
+Contoh:
 
 ```bash
 ollama pull qwen2.5:7b
 ```
 
+---
+
 ## FFmpeg tidak ditemukan
 
-Pastikan `ffmpeg.exe` tersedia.
+Pastikan FFmpeg sudah terinstall.
 
-Test:
+Coba:
 
 ```bash
 ffmpeg -version
 ```
 
-Kemudian masukkan path FFmpeg melalui Settings.
-
-## yt-dlp tidak ditemukan
-
-Pastikan file berikut tersedia:
-
-```text
-yt-dlp.exe
-```
-
-Kemudian masukkan path-nya melalui Settings.
-
-## Whisper tidak ditemukan
-
-Pastikan file berikut tersedia:
-
-```text
-whisper-cli.exe
-ggml-large-v3-turbo-q5_0.bin
-```
-
-Kemudian masukkan kedua path melalui Settings.
-
-## YouTube Subtitle tidak tersedia
-
-Tidak masalah.
-
-MT-CLIP memiliki fallback ke Whisper:
-
-```text
-YouTube Subtitle
-       ↓
-   Available?
-    /      \
-  YES      NO
-   ↓        ↓
-Subtitle  Whisper
-   \        /
-    \      /
-   Transcript
-```
-
-Jika subtitle tersedia, transcription dapat dilakukan lebih cepat.
-
-Jika subtitle tidak tersedia, MT-CLIP akan menggunakan Whisper.cpp.
+Jika command tidak ditemukan, pastikan FFmpeg sudah masuk ke PATH atau masukkan lokasi FFmpeg melalui Settings.
 
 ---
 
-# Project Structure
+## MT-CLIP tidak dapat membuat clip
 
-```text
-MT-CLIP/
-│
-├── Assets/
-│   ├── Fonts/
-│   └── images/
-│
-├── Core/
-│   ├── Ai.py
-│   ├── AiProvider.py
-│   ├── AudioExtact.py
-│   ├── Logger.py
-│   ├── PortraitCropper.py
-│   ├── SubtitleAnimator.py
-│   ├── VideoCutter.py
-│   ├── ViralEnhance.py
-│   ├── WhisperTranscript.py
-│   └── YtDlp.py
-│
-├── workspace/
-│   ├── audio/
-│   ├── clips/
-│   ├── downloads/
-│   └── transcripts/
-│
-├── Config.py
-├── Main.py
-├── app.py
-├── settings.json
-│
-└── README.md
-```
+Pastikan:
+
+* Internet tersedia
+* Link YouTube valid
+* Ollama berjalan
+* AI model sudah tersedia
+* FFmpeg sudah terkonfigurasi
+* Storage masih tersedia
+
+Jika masih mengalami masalah, periksa log yang tersedia pada aplikasi.
+
+---
+
+# Release
+
+Versi terbaru MT-CLIP dapat di-download melalui GitHub Releases:
+
+[Download Latest Release](https://github.com/dafaprasetya/MT-CLIP/releases/?utm_source=mt-clipper.my.id)
+
+Setiap release ZIP sudah berisi file yang diperlukan untuk menjalankan MT-CLIP.
+
+**Tidak perlu melakukan build dari source code jika hanya ingin menggunakan aplikasinya.**
 
 ---
 
@@ -853,7 +577,7 @@ Pastikan kamu memiliki hak atau izin yang sesuai terhadap video yang diproses.
 Penggunaan video dari YouTube tetap tunduk pada:
 
 * Hak cipta
-* Terms of Service YouTube
+* YouTube Terms of Service
 * Aturan platform
 * Hak pemilik konten
 
@@ -881,35 +605,36 @@ Made with too much coffee and questionable engineering decisions.
 
 MT-CLIP is an application that **automatically turns YouTube videos into short clips using AI**.
 
-Simply provide a YouTube URL and MT-CLIP will handle the downloading, transcription, AI analysis, clip selection, and video rendering automatically.
+Simply provide a YouTube URL, choose your preferred settings, and MT-CLIP will find interesting moments and turn them into ready-to-use clips.
+
+MT-CLIP is designed to keep the process as simple as possible — **download, setup, and start creating clips.**
+
+---
 
 ## Features
 
 * AI-powered automatic clip generation
-* Automatically finds interesting moments from videos
-* Support for **Ollama / Local AI**
-* Default AI model: `qwen2.5:7b`
-* Support for multiple AI providers
-* Automatically uses YouTube subtitles when available
-* Falls back to **Whisper.cpp** when subtitles are unavailable
+* Automatically finds interesting moments
+* Local AI using Ollama
+* Support for multiple AI models
 * Generate multiple clips at once
 * Configurable clip count
-* Configurable minimum and maximum clip duration
-* **Portrait / 9:16 clips**
-* Automatic portrait cropping
+* Configurable clip duration
+* Landscape and Portrait / 9:16 output
+* Automatic subject tracking for portrait videos
 * Animated subtitles
-* Custom subtitle styling
-* Built-in gallery for generated clips
-* Automatic video rendering using FFmpeg
-* ViralEnhance for trend and topic context
-* Support for:
+* Custom subtitles
+* Built-in gallery
+* Automatic video processing
+* ViralEnhance for trend and topic analysis
+* Trend sources:
 
   * YouTube
   * Google Trends
   * Reddit
   * TikTok
-* Local AI processing using Ollama
-* GPU acceleration through supported Ollama backends, including Vulkan
+* GPU acceleration through Vulkan
+* Can run locally without paid AI APIs
 
 ---
 
@@ -917,7 +642,7 @@ Simply provide a YouTube URL and MT-CLIP will handle the downloading, transcript
 
 MT-CLIP can run on relatively modest hardware.
 
-However, AI inference, transcription, portrait processing, and video rendering can be resource-intensive. **More RAM and a better GPU generally mean faster processing.**
+However, AI processing and video processing can be resource-intensive. **More RAM and a better GPU generally mean faster processing.**
 
 ### Minimum
 
@@ -933,107 +658,66 @@ However, AI inference, transcription, portrait processing, and video rendering c
 * **CPU:** 6–8 Cores
 * **RAM:** 16 GB or more
 * **GPU:** Dedicated GPU with 6 GB+ VRAM
-* **Storage:** SSD with sufficient free space
+* **Storage:** SSD
 
-### RAM
+### For Faster Processing
 
-More RAM is especially useful when:
+If you want faster processing, especially when using local AI:
 
-* Processing long videos
-* Running local AI models
-* Transcribing with Whisper
-* Rendering multiple clips
-* Running multiple processes simultaneously
+**RAM**
 
-**16 GB RAM** is a comfortable starting point for everyday use.
+* 8 GB → Usable
+* 16 GB → Recommended
+* 32 GB+ → Great for long videos and heavier workloads
 
-For long videos or larger AI models, **32 GB RAM or more** is recommended.
+**GPU**
 
-### GPU & Vulkan
+A GPU is not required, but it is highly recommended.
 
-A GPU is **not required**, but it is highly recommended if you want faster processing.
+More VRAM generally provides a better experience when running larger AI models.
 
-If your GPU and drivers support Vulkan, Ollama can be run using the Vulkan backend.
+For example:
 
-On Windows:
+```text
+8 GB VRAM
+12 GB VRAM
+16 GB VRAM
+```
+
+### Vulkan
+
+If your GPU supports Vulkan, you can try running Ollama with Vulkan to utilize your GPU.
 
 ```bash
 set OLLAMA_VULKAN=1
 ollama serve
 ```
 
-MT-CLIP can then use Ollama normally.
-
-> Vulkan support and performance depend on your GPU, drivers, Ollama version, backend, and AI model.
-
-A GPU with more VRAM is generally more comfortable for running larger local AI models.
-
-A comfortable configuration would be:
-
-```text
-CPU     : 6+ Cores
-RAM     : 16–32 GB
-GPU     : 8 GB+ VRAM
-Storage : SSD
-```
-
-This is **not a mandatory requirement**.
-
-MT-CLIP can still run using CPU-only processing, but AI inference and transcription may be significantly slower.
-
-### Performance Priority
-
-If your main goal is faster MT-CLIP processing, generally prioritize:
-
-```text
-GPU / Hardware Acceleration
-          ↓
-         RAM
-          ↓
-         CPU
-          ↓
-         SSD
-```
-
-Especially for:
-
-```text
-Ollama
-Whisper
-Portrait Crop
-FFmpeg Rendering
-```
+> Vulkan performance varies depending on your GPU, drivers, Ollama version, and AI model.
 
 ---
 
-# Requirements
+# What You Need
 
-MT-CLIP requires several external components.
+To use the MT-CLIP release, you only need to prepare a few things.
 
-### Required
+### 1. MT-CLIP
 
-* **Ollama** — local AI inference
-* **FFmpeg** — video processing and rendering
-* **yt-dlp** — YouTube video and subtitle downloading
-* **Whisper.cpp** — fallback transcription
+Download the latest release from:
 
-### Optional
+[MT-CLIP Releases](https://github.com/dafaprasetya/MT-CLIP/releases/?utm_source=mt-clipper.my.id)
 
-* YouTube Data API v3
-* TikTok RapidAPI
-* Other AI provider APIs
+Extract the ZIP wherever you want.
 
-These APIs are only required if you want to use certain **ViralEnhance** features.
+**You do not need to download MT-CLIP's internal components separately.**
 
 ---
 
-# Installation
-
-## 1. Install Ollama
+### 2. Ollama
 
 Download and install Ollama:
 
-[Download Ollama for Windows](https://ollama.com/download/windows?utm_source=chatgpt.com)
+[Download Ollama for Windows](https://ollama.com/download/windows?utm_source=mt-clipper.my.id)
 
 Then open a terminal:
 
@@ -1041,30 +725,29 @@ Then open a terminal:
 ollama pull qwen2.5:7b
 ```
 
-Check the installed models:
+Check:
 
 ```bash
 ollama list
 ```
 
-Example:
+If you see:
 
 ```text
-NAME            SIZE
-qwen2.5:7b      ~4.7 GB
+qwen2.5:7b
 ```
 
-`qwen2.5:7b` is the recommended default model to get started.
+the model is ready.
 
-You can also use another model compatible with Ollama.
+You can also use another compatible model.
 
 ---
 
-## 2. Install FFmpeg
+### 3. FFmpeg
 
 Download FFmpeg:
 
-[FFmpeg Builds by Gyan](https://www.gyan.dev/ffmpeg/builds/?utm_source=chatgpt.com)
+[FFmpeg Builds by Gyan](https://www.gyan.dev/ffmpeg/builds/?utm_source=mt-clipper.my.id)
 
 The **Full Build** is recommended.
 
@@ -1074,206 +757,110 @@ Verify the installation:
 ffmpeg -version
 ```
 
-If you use Chocolatey:
-
-```bash
-choco install ffmpeg
-```
-
 ---
 
-## 3. Install yt-dlp
+# Initial Setup
 
-Download `yt-dlp.exe` from the official repository:
+After preparing everything:
 
-[yt-dlp GitHub Repository](https://github.com/yt-dlp/yt-dlp?utm_source=chatgpt.com)
+1. Download MT-CLIP from the Releases page.
+2. Extract the ZIP.
+3. Install Ollama.
+4. Download your preferred AI model.
+5. Install FFmpeg.
+6. Launch MT-CLIP.
+7. Open **Settings**.
+8. Check the AI configuration.
+9. Configure the FFmpeg path if required.
+10. Save your settings.
 
-MT-CLIP requires:
-
-```text
-yt-dlp.exe
-```
-
-The executable path can be configured through **Settings**.
-
----
-
-## 4. Install Whisper.cpp
-
-Whisper is used as a fallback when YouTube subtitles are unavailable.
-
-MT-CLIP uses:
-
-```text
-whisper-cli.exe
-```
-
-and the Whisper model:
-
-```text
-ggml-large-v3-turbo-q5_0.bin
-```
-
-The executable and model paths can be configured through **Settings**.
-
-When YouTube subtitles are available, MT-CLIP can use them first, making transcription significantly faster.
-
----
-
-# First Setup
-
-Launch MT-CLIP for the first time.
-
-Configure the required executable paths:
-
-```text
-yt-dlp
-FFmpeg
-Whisper CLI
-Whisper Model
-```
-
-For local AI:
-
-```text
-AI Provider : Ollama
-AI Model    : qwen2.5:7b
-Ollama URL  : http://127.0.0.1:11434
-```
-
-Make sure Ollama is running before generating clips.
+MT-CLIP is now ready to use.
 
 ---
 
 # How To Use
 
-## 1. Open the Dashboard
+## 1. Enter a YouTube URL
 
-Paste the YouTube URL you want to process.
+Open the MT-CLIP Dashboard.
 
-Example:
+Paste your YouTube URL:
 
 ```text
 https://www.youtube.com/watch?v=xxxxxxxxxxx
 ```
 
-## 2. Configure Your Clip
+---
 
-Before starting, you can configure:
+## 2. Configure Your Settings
 
+You can configure:
+
+* AI model
 * Language
 * Number of clips
-* Minimum clip duration
-* Maximum clip duration
-* AI provider
-* AI model
-* Context length
+* Minimum duration
+* Maximum duration
 * Subtitles
 * Portrait mode
 * Subtitle style
 * ViralEnhance
 
-For your first run, the default settings should be enough.
+For your first run, **the default settings should be enough.**
+
+---
 
 ## 3. Generate Clips
 
-Click:
+Click **Create Clip**.
 
-**Create Clip**
-
-MT-CLIP will automatically process the video:
+MT-CLIP will automatically:
 
 ```text
-YouTube URL
-     ↓
-Download Video
-     ↓
-Get Subtitle
-     ↓
-Subtitle available?
-     │
-     ├── YES
-     │    ↓
-     │  Clean Transcript
-     │
-     └── NO
-          ↓
-       Extract Audio
-          ↓
-       Whisper.cpp
-          ↓
-       Transcript
-          ↓
-     AI Analysis
-          ↓
-     ViralEnhance
-          ↓
-    Clip Selection
-          ↓
-     Validate Clips
-          ↓
-    FFmpeg Rendering
-          ↓
-   Portrait Processing
-          ↓
-   Animated Subtitle
-          ↓
-       Gallery
+YouTube Video
+      ↓
+   Processing
+      ↓
+  AI Analysis
+      ↓
+Find Best Moments
+      ↓
+  Create Clips
+      ↓
+ Add Subtitle
+      ↓
+Portrait Version
+      ↓
+    Gallery
 ```
 
 ---
 
-# AI Clip Selection
+# Gallery
 
-The AI does not simply pick random sections of the video.
+Once processing is complete, all generated clips can be viewed through the **Gallery**.
 
-It analyzes the transcript and looks for moments that could work well as short-form content.
+MT-CLIP can generate:
 
-Factors may include:
-
-* Hook
-* Emotional impact
-* Standalone clarity
-* Shareability
-* Story climax
-* Humor
-* Plot twist
-* Educational value
-* Interesting statements
-* Context
-* Potential audience engagement
-
-The AI also attempts to avoid clips that are:
-
-* Too short
-* Missing important context
-* Cut in the middle of a statement
-* Lacking a hook
-* Too similar to other clips
-
----
-
-# Output
-
-All generated clips can be found through the **Gallery**.
-
-The workspace generally looks like:
+### Landscape
 
 ```text
-workspace/
-├── downloads/
-├── audio/
-├── transcripts/
-└── clips/
-    └── VIDEO_ID/
-        ├── clip_01.mp4
-        ├── clip_01_portrait.mp4
-        ├── clip_02.mp4
-        ├── clip_02_portrait.mp4
-        └── ...
+16:9
 ```
 
-Portrait versions are intended for:
+Suitable for:
+
+* YouTube
+* Standard video
+* Podcast clips
+
+### Portrait
+
+```text
+9:16
+```
+
+Suitable for:
 
 * TikTok
 * YouTube Shorts
@@ -1281,41 +868,32 @@ Portrait versions are intended for:
 
 ---
 
-# Portrait Mode
+# AI Clip Selection
 
-MT-CLIP can generate a portrait version from landscape videos.
+The AI analyzes the video content and tries to find moments that have potential as short-form content.
 
-```text
-16:9 Landscape
-      ↓
-Object Detection
-      ↓
-Automatic Subject Tracking
-      ↓
-9:16 Portrait
-```
+Factors may include:
 
-The goal is to keep the main subject inside the frame when converting landscape footage to vertical format.
+* Hook
+* Emotional impact
+* Interesting moments
+* Story climax
+* Humor
+* Plot twist
+* Educational value
+* Shareability
+* Context
+* Audience engagement
 
----
+The AI also attempts to avoid clips that are:
 
-# Animated Subtitles
+* Too short
+* Missing context
+* Cut in the middle of a statement
+* Missing a hook
+* Too similar to other clips
 
-MT-CLIP can automatically generate animated subtitles.
-
-Available settings include:
-
-* Font
-* Font size
-* Text color
-* Stroke color
-* Stroke width
-* Words per chunk
-* Pop duration
-* Uppercase
-* Safe zone
-
-Subtitle settings can be customized through Settings.
+> Results still depend on the source video, transcript, AI model, and selected settings.
 
 ---
 
@@ -1323,9 +901,9 @@ Subtitle settings can be customized through Settings.
 
 **ViralEnhance is optional.**
 
-It provides additional context to the AI about relevant topics and current trends.
+It provides additional information to the AI about relevant topics and current trends.
 
-MT-CLIP can use several sources:
+Available sources include:
 
 ```text
 YouTube
@@ -1334,21 +912,25 @@ Reddit
 TikTok
 ```
 
-The collected data is then provided as additional context when the AI evaluates and selects clips.
+The goal is to help the AI understand whether a topic or discussion is relevant to current trends.
 
-## YouTube
+---
+
+## Unlock ViralEnhance
+
+Some sources require API keys.
+
+### YouTube
 
 MT-CLIP uses the **YouTube Data API v3**.
 
-### Getting an API Key
+To get an API Key:
 
 1. Open Google Cloud Console.
-2. Create a new project.
+2. Create a project.
 3. Enable **YouTube Data API v3**.
 4. Create an API Key.
 5. Enter the API Key in MT-CLIP Settings.
-
-Configuration:
 
 ```text
 Settings
@@ -1356,19 +938,17 @@ Settings
 → YouTube API Key
 ```
 
-## TikTok
+### TikTok
 
 MT-CLIP uses RapidAPI to retrieve TikTok data.
 
-### Setup
+Setup:
 
 1. Register on RapidAPI.
-2. Find the TikTok API used by MT-CLIP.
+2. Find the TikTok API being used.
 3. Subscribe to the API.
 4. Copy your API Key.
 5. Enter it in Settings.
-
-Configuration:
 
 ```text
 Settings
@@ -1376,15 +956,13 @@ Settings
 → TikTok RapidAPI Key
 ```
 
-The TikTok RapidAPI Host can also be configured if required.
-
 If no API key is provided, TikTok will simply be skipped.
 
-## Google Trends
+### Google Trends
 
-Google Trends is used to retrieve information about currently popular topics.
+Google Trends can be used to retrieve information about currently popular topics.
 
-The region can be configured using:
+Configure:
 
 ```text
 Trend Region
@@ -1396,60 +974,53 @@ Example:
 ID
 ```
 
-No additional API key is required for this integration.
+No additional API key is required.
 
-## Reddit
+### Reddit
 
-Reddit can also be used as a trend context source.
+Reddit can also be used as an additional source of information about trending topics.
 
-MT-CLIP uses a User-Agent for requests.
-
-Example:
-
-```text
-clipmaker/1.0
-```
-
-If Reddit cannot be accessed, the Reddit source will be skipped and the main processing pipeline can continue.
+If Reddit is unavailable, MT-CLIP will continue to work normally.
 
 ---
 
 # AI Providers
 
-Default configuration:
+Default:
 
 ```text
 Provider : Ollama
 Model    : qwen2.5:7b
 ```
 
-MT-CLIP is designed not to depend on a single AI provider.
+MT-CLIP can also work with other compatible providers.
 
-Depending on the configuration, the project can work with providers such as:
+Examples include:
 
 * Ollama
-* OpenAI-compatible APIs
-* OpenRouter
 * OpenAI
+* OpenRouter
 * Gemini
 * LM Studio
 * Groq
-* Together
+* OpenAI-compatible APIs
 
-For free local AI processing, **Ollama is the recommended option**.
+For free local AI processing, **Ollama is recommended.**
 
 ---
 
 # Local AI
 
-Advantages of using Ollama:
+Using Ollama allows MT-CLIP to run AI locally.
+
+Benefits:
 
 * No API key required
-* Transcript processing can stay local
-* No API costs
+* No paid AI API required
+* Data can be processed locally
 * GPU acceleration
-* Multiple model choices
-* Can operate without cloud AI
+* Freedom to choose models
+* No dependency on cloud AI services
 
 Example:
 
@@ -1468,131 +1039,48 @@ AI Model    → qwen2.5:7b
 
 # GPU Acceleration
 
-If your GPU supports an Ollama backend, AI inference can be accelerated using your GPU.
+A GPU is not required to run MT-CLIP.
 
-To try Vulkan:
+However, if your GPU supports Vulkan, you can try using it to accelerate AI processing.
 
 ```bash
 set OLLAMA_VULKAN=1
 ollama serve
 ```
 
-Then verify that Ollama is running:
+Then launch MT-CLIP normally.
 
-```bash
-ollama list
-```
+> Vulkan performance depends on your hardware and drivers.
 
-GPUs with more VRAM are generally more comfortable when running larger AI models.
-
-For example:
-
-```text
-8 GB VRAM
-12 GB VRAM
-16 GB VRAM
-```
-
-A GPU is not mandatory.
-
-MT-CLIP can still run using CPU-only processing.
-
----
-
-# Settings
-
-## Video & Transcription
-
-```text
-Language
-Download YouTube Subtitle
-Whisper Path
-Whisper Model
-yt-dlp Path
-FFmpeg Path
-```
-
-## AI
-
-```text
-AI Provider
-AI Base URL
-AI API Key
-AI Model
-Context Length
-Chunk Window
-Max Clips / Chunk
-```
-
-## Clip
-
-```text
-Minimum Clip Duration
-Maximum Clip Duration
-Maximum Clips
-Diversity Mode
-Quote Validation
-```
-
-## Portrait & Subtitle
-
-```text
-Subtitle Font
-Font Size
-Subtitle Color
-Stroke Color
-Stroke Width
-Words Per Chunk
-Pop Duration
-Uppercase
-Safe Zone
-```
-
-## Trend
-
-```text
-YouTube API Key
-Trend Region
-Reddit User-Agent
-TikTok RapidAPI Key
-TikTok RapidAPI Host
-```
+A GPU with more VRAM also makes it easier to use larger AI models.
 
 ---
 
 # Processing Time
 
-MT-CLIP performs several relatively heavy operations:
-
-```text
-Download
-    ↓
-Transcription
-    ↓
-AI Analysis
-    ↓
-Clip Selection
-    ↓
-Video Rendering
-    ↓
-Portrait Crop
-    ↓
-Subtitle Rendering
-```
-
-Because of this, long videos may take several minutes or more to process.
-
-Performance depends heavily on:
+Processing time depends on:
 
 * Video duration
 * Video resolution
+* AI model
 * CPU
 * RAM
 * GPU
 * VRAM
-* AI model
-* Whisper model
 * Storage
+* Number of clips
+* Processing settings
+
+Longer videos naturally take more time.
+
+For faster processing:
+
+```text
+RAM : 16 GB+
+GPU : Dedicated GPU
+VRAM: 8 GB+
+SSD : Recommended
+```
 
 ---
 
@@ -1600,16 +1088,12 @@ Performance depends heavily on:
 
 ## Ollama is not connecting
 
-Make sure Ollama is running:
+Make sure Ollama is running.
+
+Try:
 
 ```bash
 ollama list
-```
-
-Default URL:
-
-```text
-http://127.0.0.1:11434
 ```
 
 Make sure the selected model is installed:
@@ -1618,98 +1102,46 @@ Make sure the selected model is installed:
 ollama pull qwen2.5:7b
 ```
 
+---
+
 ## FFmpeg is not found
 
-Make sure `ffmpeg.exe` is available.
+Make sure FFmpeg is installed.
 
-Test:
+Try:
 
 ```bash
 ffmpeg -version
 ```
 
-Then configure the FFmpeg path through Settings.
-
-## yt-dlp is not found
-
-Make sure the following file exists:
-
-```text
-yt-dlp.exe
-```
-
-Then configure its path through Settings.
-
-## Whisper is not found
-
-Make sure these files exist:
-
-```text
-whisper-cli.exe
-ggml-large-v3-turbo-q5_0.bin
-```
-
-Then configure both paths through Settings.
-
-## YouTube subtitles are unavailable
-
-This is not a problem.
-
-MT-CLIP has a Whisper fallback:
-
-```text
-YouTube Subtitle
-       ↓
-   Available?
-    /      \
-  YES      NO
-   ↓        ↓
-Subtitle  Whisper
-   \        /
-    \      /
-   Transcript
-```
-
-If subtitles are available, transcription can be significantly faster.
-
-If subtitles are unavailable, MT-CLIP will use Whisper.cpp.
+If the command is not found, make sure FFmpeg is added to PATH or configure its location through Settings.
 
 ---
 
-# Project Structure
+## MT-CLIP cannot generate clips
 
-```text
-MT-CLIP/
-│
-├── Assets/
-│   ├── Fonts/
-│   └── images/
-│
-├── Core/
-│   ├── Ai.py
-│   ├── AiProvider.py
-│   ├── AudioExtact.py
-│   ├── Logger.py
-│   ├── PortraitCropper.py
-│   ├── SubtitleAnimator.py
-│   ├── VideoCutter.py
-│   ├── ViralEnhance.py
-│   ├── WhisperTranscript.py
-│   └── YtDlp.py
-│
-├── workspace/
-│   ├── audio/
-│   ├── clips/
-│   ├── downloads/
-│   └── transcripts/
-│
-├── Config.py
-├── Main.py
-├── app.py
-├── settings.json
-│
-└── README.md
-```
+Make sure:
+
+* Internet connection is available
+* The YouTube URL is valid
+* Ollama is running
+* The AI model is installed
+* FFmpeg is configured
+* Enough storage space is available
+
+If the problem persists, check the application logs.
+
+---
+
+# Release
+
+Download the latest MT-CLIP release from GitHub:
+
+[Download Latest Release](https://github.com/dafaprasetya/MT-CLIP/releases/?utm_source=mt-clipper.my.id)
+
+Each release ZIP already contains the files required to run MT-CLIP.
+
+**You do not need to build the application from source if you only want to use the released application.**
 
 ---
 
