@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ============ SEO ============ -->
+  <title>MT-CLIP — Turn YouTube Videos into Shorts & Reels with Local AI</title>
+  <meta name="title" content="MT-CLIP — Turn YouTube Videos into Shorts & Reels with Local AI" />
+  <meta name="description" content="MT-CLIP is a free, desktop app that turns any YouTube video into short-form clips automatically. Local AI finds the best moments, generates 9:16 portrait cuts, and burns in animated subtitles — no API bill required." />
+  <meta name="keywords" content="MT-CLIP, AI video clipper, youtube to shorts, auto clip generator, short form content, tiktok clip maker, reels generator, local AI video editor, ollama video, free clip generator, open source video tool" />
+  <meta name="author" content="Dafa Prasetya" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#121317" />
+  <link rel="canonical" href="https://mt-clip.app/" />
+  <!-- NOTE: replace the canonical/og:url/twitter:url values above and below with your real deployed domain before publishing. -->
+
+  <!-- ============ Open Graph ============ -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mt-clip.app/" />
+  <meta property="og:title" content="MT-CLIP — Turn YouTube Videos into Shorts & Reels with Local AI" />
+  <meta property="og:description" content="Paste a YouTube link. Local AI finds the moments worth clipping and exports landscape + 9:16 videos with animated subtitles — 100% free." />
+  <meta property="og:image" content="https://mt-clip.app/logo.png" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="id_ID" />
+
+  <!-- ============ Twitter Card ============ -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://mt-clip.app/" />
+  <meta name="twitter:title" content="MT-CLIP — Turn YouTube Videos into Shorts & Reels with Local AI" />
+  <meta name="twitter:description" content="Free, local-AI clipper: YouTube link in, ready-to-post Shorts/Reels/TikTok clips out." />
+  <meta name="twitter:image" content="https://mt-clip.app/logo.png" />
+
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+
+  <!-- ============ Structured data ============ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "MT-CLIP",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Windows 10, Windows 11",
+    "description": "Free desktop app that uses local AI to turn long YouTube videos into short-form clips with subtitles, in landscape and 9:16 portrait format.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "url": "https://mt-clip.app/",
+    "image": "https://mt-clip.app/logo.png",
+    "author": {
+      "@type": "Person",
+      "name": "Dafa Prasetya"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <a class="brand" href="#top">
+      <span class="brand-mark"><img src="logo.png" alt="" /></span>
+      <span class="brand-name">MT-CLIP</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features" data-i18n="nav.features">Features</a>
+      <a href="#how" data-i18n="nav.how">How it works</a>
+      <a href="#requirements" data-i18n="nav.requirements">Requirements</a>
+      <a href="docs.html" data-i18n="nav.doc">Docs</a>
+      <a class="nav-cta" href="#download" data-i18n="nav.download">Download</a>
+      <div class="lang-toggle" role="group" aria-label="Language switch">
+        <button type="button" data-lang="en" class="active">EN</button>
+        <button type="button" data-lang="id">ID</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="top">
+      <div class="orb"></div>
+      <div class="wrap hero-content">
+        <div class="eyebrow"><span class="dot"></span> <span data-i18n="hero.eyebrow">100% FREE · Untill i change my mind</span></div>
+        <img class="hero-logo" src="logo.png" alt="MT-CLIP logo" />
+        <h1 data-i18n="hero.title">Turn long videos into <span>short-form content.</span></h1>
+        <p class="hero-copy" data-i18n="hero.copy">
+          Paste a YouTube link. Let AI find the moments worth clipping.
+          Generate landscape and 9:16 videos with subtitles — without paying for an AI API.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#download" data-i18n="hero.cta_primary">Download MT-CLIP ↓</a>
+          <a class="btn btn-secondary" href="#features" data-i18n="hero.cta_secondary">Explore features ↓</a>
+        </div>
+        <div class="release-note" data-i18n="hero.release_note">100% FREE — until I change my mind.</div>
+
+        <div class="mockup-wrap reveal">
+          <div class="mockup">
+            <div class="window-bar">
+              <i></i><i></i><i></i><span class="window-title">MT-CLIP</span>
+            </div>
+            <div class="dashboard">
+              <aside class="side">
+                <div class="side-title">MT-CLIP</div>
+                <div class="side-item active">Dashboard</div>
+                <div class="side-item">Galeri</div>
+                <div class="side-item">Settings</div>
+              </aside>
+              <div class="dash-main">
+                <div class="dash-head">
+                  <h3 data-i18n="mockup.dashboard">Dashboard</h3>
+                  <span class="tiny-btn" data-i18n="mockup.new">BUAT CLIP</span>
+                </div>
+                <div class="input">https://youtube.com/watch?v=your-video</div>
+                <div class="dash-grid">
+                  <div class="dash-card">
+                    <h4 data-i18n="mockup.current">Current project</h4>
+                    <div class="video-preview" data-i18n="mockup.finding">AI is finding the best moments...</div>
+                    <div class="progress"><span></span></div>
+                  </div>
+                  <div class="dash-card">
+                    <h4 data-i18n="mockup.output">Output</h4>
+                    <div class="stats">
+                      <div class="stat"><b>07</b><small data-i18n="mockup.stat1">clips generated</small></div>
+                      <div class="stat"><b>9:16</b><small data-i18n="mockup.stat2">portrait ready</small></div>
+                      <div class="stat"><b>AI</b><small data-i18n="mockup.stat3">local processing</small></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="wrap">
+        <div class="timecode reveal"><span class="tc-label">00:00</span><div class="tc-track" style="--tc-pos:8%"></div></div>
+        <h2 class="section-title reveal" data-i18n="features.title">Less timeline. <span>More content.</span></h2>
+        <p class="section-copy reveal" data-i18n="features.copy">
+          MT-CLIP is built around one simple idea: you shouldn't have to watch an entire video twice just to find five moments worth posting.
+        </p>
+
+        <div class="feature-grid">
+          <article class="feature reveal">
+            <div class="feature-chip" data-i18n="feature.1.chip">AI CLIPPING</div>
+            <h3 data-i18n="feature.1.title">Find the good parts.</h3>
+            <p data-i18n="feature.1.desc">AI analyzes the video's context and looks for moments with hooks, payoff, emotion, humor, insight, or strong standalone value.</p>
+          </article>
+          <article class="feature reveal">
+            <div class="feature-chip" data-i18n="feature.2.chip">SHORT-FORM</div>
+            <h3 data-i18n="feature.2.title">One video, multiple formats.</h3>
+            <p data-i18n="feature.2.desc">Create landscape clips and vertical 9:16 versions designed for Shorts, TikTok, and Reels.</p>
+          </article>
+          <article class="feature reveal">
+            <div class="feature-chip" data-i18n="feature.3.chip">LOCAL AI</div>
+            <h3 data-i18n="feature.3.title">Your machine. Your model.</h3>
+            <p data-i18n="feature.3.desc">Run AI locally with Ollama. No subscription is required just to analyze your videos.</p>
+          </article>
+          <article class="feature reveal">
+            <div class="feature-chip" data-i18n="feature.4.chip">SUBTITLES</div>
+            <h3 data-i18n="feature.4.title">Make every word pop.</h3>
+            <p data-i18n="feature.4.desc">Generate animated subtitles and customize their appearance so your clips feel ready for short-form platforms.</p>
+          </article>
+          <article class="feature reveal">
+            <div class="feature-chip" data-i18n="feature.5.chip">VIRALENHANCE</div>
+            <h3 data-i18n="feature.5.title">Add trend context.</h3>
+            <p data-i18n="feature.5.desc">Optionally enrich AI analysis with trend signals from YouTube, Google Trends, Reddit, and TikTok.</p>
+          </article>
+          <article class="feature reveal">
+            <div class="feature-chip" data-i18n="feature.6.chip">FREE</div>
+            <h3 data-i18n="feature.6.title">No AI API bill.</h3>
+            <p data-i18n="feature.6.desc">Use local AI with Ollama and keep the core workflow free. API-powered trend features are optional.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="wrap">
+        <div class="timecode reveal"><span class="tc-label">00:24</span><div class="tc-track" style="--tc-pos:26%"></div></div>
+        <h2 class="section-title reveal" data-i18n="how.title">From YouTube link to <span>ready-to-post clips.</span></h2>
+        <p class="section-copy reveal" data-i18n="how.copy">The workflow is intentionally simple. Paste, configure if you want, and let MT-CLIP do the repetitive work.</p>
+
+        <div class="flow">
+          <div class="flow-step reveal"><span class="flow-time">00:00–00:15</span><b data-i18n="step.1.b">PASTE</b><span class="flow-desc" data-i18n="step.1.d">Drop your YouTube URL into the dashboard.</span></div>
+          <div class="flow-step reveal"><span class="flow-time">00:15–00:45</span><b data-i18n="step.2.b">UNDERSTAND</b><span class="flow-desc" data-i18n="step.2.d">MT-CLIP processes the video's content for AI analysis.</span></div>
+          <div class="flow-step reveal"><span class="flow-time">00:45–01:10</span><b data-i18n="step.3.b">SELECT</b><span class="flow-desc" data-i18n="step.3.d">AI identifies moments that can stand on their own.</span></div>
+          <div class="flow-step reveal"><span class="flow-time">01:10–01:40</span><b data-i18n="step.4.b">EDIT</b><span class="flow-desc" data-i18n="step.4.d">Generate clips, subtitles, and portrait versions.</span></div>
+          <div class="flow-step reveal"><span class="flow-time">01:40–02:00</span><b data-i18n="step.5.b">GALLERY</b><span class="flow-desc" data-i18n="step.5.d">Find your finished clips in one place.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="requirements">
+      <div class="wrap">
+        <div class="timecode reveal"><span class="tc-label">00:48</span><div class="tc-track" style="--tc-pos:48%"></div></div>
+        <h2 class="section-title reveal" data-i18n="req.title">Runs on modest hardware. <span>Runs faster on good hardware.</span></h2>
+        <p class="section-copy reveal" data-i18n="req.copy">
+          A dedicated GPU is not mandatory. More RAM and GPU acceleration simply make local AI and heavier video workloads more comfortable.
+        </p>
+
+        <div class="spec-wrap">
+          <div class="spec reveal">
+            <h3 data-i18n="req.min.title">Minimum</h3>
+            <div class="spec-row"><span data-i18n="req.os">OS</span><b>Windows 10 / 11</b></div>
+            <div class="spec-row"><span data-i18n="req.cpu">CPU</span><b>4 <span data-i18n="req.cores">Cores</span></b></div>
+            <div class="spec-row"><span data-i18n="req.ram">RAM</span><b>8 GB</b></div>
+            <div class="spec-row"><span data-i18n="req.gpu">GPU</span><b data-i18n="req.optional">Optional</b></div>
+            <div class="spec-row"><span data-i18n="req.storage">Storage</span><b data-i18n="req.ssd_rec">SSD recommended</b></div>
+          </div>
+          <div class="spec rec reveal">
+            <h3 data-i18n="req.rec.title">Recommended</h3>
+            <div class="spec-row"><span data-i18n="req.cpu">CPU</span><b>6–8+ <span data-i18n="req.cores">Cores</span></b></div>
+            <div class="spec-row"><span data-i18n="req.ram">RAM</span><b>16–32 GB</b></div>
+            <div class="spec-row"><span data-i18n="req.gpu">GPU</span><b>8 GB+ VRAM</b></div>
+            <div class="spec-row"><span data-i18n="req.accel">Acceleration</span><b data-i18n="req.vulkan">Vulkan capable</b></div>
+            <div class="spec-row"><span data-i18n="req.storage">Storage</span><b>SSD</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="timecode reveal"><span class="tc-label">01:12</span><div class="tc-track" style="--tc-pos:64%"></div></div>
+        <div class="viral">
+          <div class="viral-main reveal">
+            <div class="section-copy" style="margin-top:0; font-weight:700; color:var(--accent-dark); text-transform:uppercase; letter-spacing:.05em; font-size:11px;" data-i18n="viral.kicker">Optional · ViralEnhance</div>
+            <h2 class="section-title" style="margin-top:8px;" data-i18n="viral.title">Give the AI <span>more context.</span></h2>
+            <p class="section-copy" data-i18n="viral.copy">When you want to go beyond the video itself, ViralEnhance can provide additional trend signals to help the AI understand what's relevant right now.</p>
+            <div class="source-list">
+              <div class="source">YouTube</div>
+              <div class="source">Google Trends</div>
+              <div class="source">Reddit</div>
+              <div class="source">TikTok</div>
+            </div>
+          </div>
+          <div class="viral-side reveal">
+            <p class="quote" data-i18n="viral.quote">"What if the AI could ask: <span>is this topic actually worth clipping?</span>"</p>
+            <a class="btn btn-secondary" style="background:rgba(255,255,255,.08); color:#fff; border-color:rgba(255,255,255,.14);" href="https://github.com/dafaprasetya/MT-CLIP" target="_blank" rel="noopener" data-i18n="viral.link">View source on GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="download">
+      <div class="wrap">
+        <div class="timecode reveal"><span class="tc-label">01:40</span><div class="tc-track" style="--tc-pos:82%"></div></div>
+        <div class="download-panel reveal">
+          <div class="section-copy" style="margin-top:0; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.05em; font-size:11px;" data-i18n="dl.kicker">Ready when you are</div>
+          <h2 class="section-title" style="margin:10px auto 0; color:#fff;" data-i18n="dl.title">Stop scrubbing.<br><span>Start clipping.</span></h2>
+          <p class="section-copy" data-i18n="dl.copy">Download the latest MT-CLIP release and turn your next long video into short-form content — free, and local.</p>
+          <div class="download-actions">
+            <a class="btn btn-primary" href="https://github.com/dafaprasetya/MT-CLIP/releases/" target="_blank" rel="noopener" data-i18n="dl.primary">Download for Windows ↗</a>
+            <a class="btn btn-secondary" style="background:rgba(255,255,255,.08); color:#fff; border-color:rgba(255,255,255,.14);" href="https://github.com/dafaprasetya/MT-CLIP" target="_blank" rel="noopener" data-i18n="dl.secondary">View source on GitHub ↗</a>
+          </div>
+          <div class="download-meta" data-i18n="dl.meta">Windows 10 / 11 · No installer tricks · No AI API key required to get started.</div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding-top:0;">
+      <div class="wrap">
+        <div class="coffee-panel reveal">
+          <div class="coffee-copy">
+            <h3 data-i18n="coffee.title">Enjoying MT-CLIP?</h3>
+            <p data-i18n="coffee.copy">If it saved you an afternoon of scrubbing timelines, you can buy me a coffee to keep it maintained and free.</p>
+          </div>
+          <a class="btn btn-dark" href="https://tiptap.gg/prstya" target="_blank" rel="noopener">
+            <svg class="coffee-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 9h13a3 3 0 0 1 0 6h-1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M4 9v6a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 2.5c-.6.9-.6 1.6 0 2.5M11.5 2.5c-.6.9-.6 1.6 0 2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <span data-i18n="coffee.button">Buy me a coffee</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <div class="footer-brand">MT-CLIP</div>
+      <div data-i18n="footer.tagline">AI Auto Clip From YouTube — 100% FREE (Until I Change My Mind)</div>
+      <div class="footer-links">
+        <a href="https://github.com/dafaprasetya/MT-CLIP" target="_blank" rel="noopener">GitHub ↗</a>
+        <a href="https://tiptap.gg/prstya" target="_blank" rel="noopener" data-i18n="footer.coffee">Buy me a coffee ↗</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // =========================================================
+    // Scroll-reveal
+    // =========================================================
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal").forEach(function (el, index) {
+      el.style.transitionDelay = Math.min(index * 30, 220) + "ms";
+      observer.observe(el);
+    });
+
+    // Tiny parallax on the hero glow.
+    var orb = document.querySelector(".orb");
+    window.addEventListener("mousemove", function (e) {
+      if (!orb) return;
+      var x = (e.clientX / window.innerWidth - 0.5) * 16;
+      var y = (e.clientY / window.innerHeight - 0.5) * 10;
+      orb.style.transform = "translate(calc(-50% + " + x + "px), calc(-50% + " + y + "px))";
+    });
+
+    // Smooth-scroll for every in-page anchor (nav "Download" -> #download,
+    // hero CTAs, etc.) with an offset so the fixed nav never covers the target.
+    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+      link.addEventListener("click", function (e) {
+        var id = link.getAttribute("href");
+        if (id.length < 2) return;
+        var target = document.querySelector(id);
+        if (!target) return;
+        e.preventDefault();
+        var navHeight = 96;
+        var top = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+        window.scrollTo({ top: top, behavior: "smooth" });
+        history.pushState(null, "", id);
+      });
+    });
+
+    // =========================================================
+    // EN / ID language switch — pure JS, no page reload
+    // =========================================================
+    var translations = {
+      en: {
+        "nav.features": "Features",
+        "nav.how": "How it works",
+        "nav.doc": "Docs",
+        "nav.requirements": "Requirements",
+        "nav.download": "Download",
+        "hero.eyebrow": "100$ Free · Untill I Change My Mind",
+        "hero.title": 'Turn long videos into <span>short-form content.</span>',
+        "hero.copy": "Paste a YouTube link. Let AI find the moments worth clipping. Generate landscape and 9:16 videos with subtitles — without paying for an AI API.",
+        "hero.cta_primary": "Download MT-CLIP ↓",
+        "hero.cta_secondary": "Explore features ↓",
+        "hero.release_note": "100% FREE — until I change my mind.",
+        "mockup.dashboard": "Dashboard",
+        "mockup.new": "NEW CLIP",
+        "mockup.current": "Current project",
+        "mockup.finding": "AI is finding the best moments...",
+        "mockup.output": "Output",
+        "mockup.stat1": "clips generated",
+        "mockup.stat2": "portrait ready",
+        "mockup.stat3": "local processing",
+        "features.title": 'Less timeline. <span>More content.</span>',
+        "features.copy": "MT-CLIP is built around one simple idea: you shouldn't have to watch an entire video twice just to find five moments worth posting.",
+        "feature.1.chip": "AI CLIPPING", "feature.1.title": "Find the good parts.", "feature.1.desc": "AI analyzes the video's context and looks for moments with hooks, payoff, emotion, humor, insight, or strong standalone value.",
+        "feature.2.chip": "SHORT-FORM", "feature.2.title": "One video, multiple formats.", "feature.2.desc": "Create landscape clips and vertical 9:16 versions designed for Shorts, TikTok, and Reels.",
+        "feature.3.chip": "LOCAL AI", "feature.3.title": "Your machine. Your model.", "feature.3.desc": "Run AI locally with Ollama. No subscription is required just to analyze your videos.",
+        "feature.4.chip": "SUBTITLES", "feature.4.title": "Make every word pop.", "feature.4.desc": "Generate animated subtitles and customize their appearance so your clips feel ready for short-form platforms.",
+        "feature.5.chip": "VIRALENHANCE", "feature.5.title": "Add trend context.", "feature.5.desc": "Optionally enrich AI analysis with trend signals from YouTube, Google Trends, Reddit, and TikTok.",
+        "feature.6.chip": "FREE", "feature.6.title": "No AI API bill.", "feature.6.desc": "Use local AI with Ollama and keep the core workflow free. API-powered trend features are optional.",
+        "how.title": 'From YouTube link to <span>ready-to-post clips.</span>',
+        "how.copy": "The workflow is intentionally simple. Paste, configure if you want, and let MT-CLIP do the repetitive work.",
+        "step.1.b": "PASTE", "step.1.d": "Drop your YouTube URL into the dashboard.",
+        "step.2.b": "UNDERSTAND", "step.2.d": "MT-CLIP processes the video's content for AI analysis.",
+        "step.3.b": "SELECT", "step.3.d": "AI identifies moments that can stand on their own.",
+        "step.4.b": "EDIT", "step.4.d": "Generate clips, subtitles, and portrait versions.",
+        "step.5.b": "GALLERY", "step.5.d": "Find your finished clips in one place.",
+        "req.title": 'Runs on modest hardware. <span>Runs faster on good hardware.</span>',
+        "req.copy": "A dedicated GPU is not mandatory. More RAM and GPU acceleration simply make local AI and heavier video workloads more comfortable.",
+        "req.min.title": "Minimum", "req.rec.title": "Recommended",
+        "req.os": "OS", "req.cpu": "CPU", "req.cores": "Cores", "req.ram": "RAM", "req.gpu": "GPU",
+        "req.optional": "Optional", "req.storage": "Storage", "req.ssd_rec": "SSD recommended",
+        "req.accel": "Acceleration", "req.vulkan": "Vulkan capable",
+        "viral.kicker": "Optional · ViralEnhance",
+        "viral.title": 'Give the AI <span>more context.</span>',
+        "viral.copy": "When you want to go beyond the video itself, ViralEnhance can provide additional trend signals to help the AI understand what's relevant right now.",
+        "viral.quote": '"What if the AI could ask: <span>is this topic actually worth clipping?</span>"',
+        "viral.link": "View source on GitHub ↗",
+        "dl.kicker": "Ready when you are",
+        "dl.title": 'Stop scrubbing.<br><span>Start clipping.</span>',
+        "dl.copy": "Download the latest MT-CLIP release and turn your next long video into short-form content — free, and local.",
+        "dl.primary": "Download for Windows ↗",
+        "dl.secondary": "View source on GitHub ↗",
+        "dl.meta": "Windows 10 / 11 · No installer tricks · No AI API key required to get started.",
+        "coffee.title": "Enjoying MT-CLIP?",
+        "coffee.copy": "If it saved you an afternoon of scrubbing timelines, you can buy me a coffee to keep it maintained and free.",
+        "coffee.button": "Buy me a coffee",
+        "footer.tagline": "AI Auto Clip From YouTube — 100% FREE (Until I Change My Mind)",
+        "footer.coffee": "Buy me a coffee ↗"
+      },
+      id: {
+        "nav.features": "Fitur",
+        "nav.how": "Cara kerja",
+        "nav.doc": "Doks",
+        "nav.requirements": "Spesifikasi",
+        "nav.download": "Download",
+        "hero.eyebrow": "100% Gratis · setidaknya sampai saya berubah pikiran",
+        "hero.title": 'Ubah video panjang jadi <span>konten short-form.</span>',
+        "hero.copy": "Tempel link YouTube. Biarkan AI mencari momen yang layak diklip. Hasilkan video landscape dan 9:16 lengkap dengan subtitle — tanpa perlu bayar API AI.",
+        "hero.cta_primary": "Download MT-CLIP ↓",
+        "hero.cta_secondary": "Lihat fitur ↓",
+        "hero.release_note": "100% GRATIS — sampai saya berubah pikiran.",
+        "mockup.dashboard": "Dashboard",
+        "mockup.new": "CLIP BARU",
+        "mockup.current": "Proyek saat ini",
+        "mockup.finding": "AI sedang mencari momen terbaik...",
+        "mockup.output": "Hasil",
+        "mockup.stat1": "klip dibuat",
+        "mockup.stat2": "versi portrait siap",
+        "mockup.stat3": "proses lokal",
+        "features.title": 'Lebih sedikit timeline. <span>Lebih banyak konten.</span>',
+        "features.copy": "MT-CLIP dibangun dari satu ide sederhana: kamu tidak perlu menonton ulang seluruh video hanya untuk menemukan lima momen yang layak diunggah.",
+        "feature.1.chip": "AI CLIPPING", "feature.1.title": "Temukan bagian terbaiknya.", "feature.1.desc": "AI menganalisis konteks video dan mencari momen dengan hook, payoff, emosi, humor, insight, atau nilai yang kuat berdiri sendiri.",
+        "feature.2.chip": "SHORT-FORM", "feature.2.title": "Satu video, banyak format.", "feature.2.desc": "Buat klip landscape dan versi vertikal 9:16 yang dirancang untuk Shorts, TikTok, dan Reels.",
+        "feature.3.chip": "AI LOKAL", "feature.3.title": "Mesinmu. Modelmu.", "feature.3.desc": "Jalankan AI secara lokal dengan Ollama. Tidak perlu berlangganan hanya untuk menganalisis video.",
+        "feature.4.chip": "SUBTITLE", "feature.4.title": "Buat setiap kata menonjol.", "feature.4.desc": "Hasilkan subtitle animasi dan sesuaikan tampilannya agar klip terasa siap untuk platform short-form.",
+        "feature.5.chip": "VIRALENHANCE", "feature.5.title": "Tambahkan konteks tren.", "feature.5.desc": "Perkaya analisis AI secara opsional dengan sinyal tren dari YouTube, Google Trends, Reddit, dan TikTok.",
+        "feature.6.chip": "GRATIS", "feature.6.title": "Tanpa biaya API AI.", "feature.6.desc": "Gunakan AI lokal dengan Ollama dan jaga alur kerja inti tetap gratis. Fitur tren berbasis API bersifat opsional.",
+        "how.title": 'Dari link YouTube jadi <span>klip siap unggah.</span>',
+        "how.copy": "Alur kerjanya sengaja dibuat sederhana. Tempel, atur jika perlu, lalu biarkan MT-CLIP mengerjakan bagian yang berulang.",
+        "step.1.b": "TEMPEL", "step.1.d": "Masukkan URL YouTube ke dashboard.",
+        "step.2.b": "PAHAMI", "step.2.d": "MT-CLIP memproses isi video untuk dianalisis AI.",
+        "step.3.b": "PILIH", "step.3.d": "AI mengidentifikasi momen yang bisa berdiri sendiri.",
+        "step.4.b": "EDIT", "step.4.d": "Hasilkan klip, subtitle, dan versi portrait.",
+        "step.5.b": "GALERI", "step.5.d": "Temukan klip yang sudah jadi di satu tempat.",
+        "req.title": 'Jalan di perangkat sederhana. <span>Lebih cepat di perangkat mumpuni.</span>',
+        "req.copy": "GPU khusus tidak wajib. RAM lebih besar dan akselerasi GPU hanya membuat AI lokal dan proses video berat terasa lebih nyaman.",
+        "req.min.title": "Minimum", "req.rec.title": "Direkomendasikan",
+        "req.os": "OS", "req.cpu": "CPU", "req.cores": "Core", "req.ram": "RAM", "req.gpu": "GPU",
+        "req.optional": "Opsional", "req.storage": "Penyimpanan", "req.ssd_rec": "SSD disarankan",
+        "req.accel": "Akselerasi", "req.vulkan": "Mendukung Vulkan",
+        "viral.kicker": "Opsional · ViralEnhance",
+        "viral.title": 'Beri AI <span>konteks lebih.</span>',
+        "viral.copy": "Kalau ingin lebih dari sekadar isi video, ViralEnhance bisa memberi sinyal tren tambahan agar AI paham apa yang relevan saat ini.",
+        "viral.quote": '"Bagaimana kalau AI bisa bertanya: <span>apakah topik ini benar-benar layak diklip?</span>"',
+        "viral.link": "Lihat source di GitHub ↗",
+        "dl.kicker": "Siap kapan pun kamu siap",
+        "dl.title": 'Berhenti scrubbing.<br><span>Mulai nge-clip.</span>',
+        "dl.copy": "Download rilis terbaru MT-CLIP dan ubah video panjangmu berikutnya jadi konten short-form — gratis, dan lokal.",
+        "dl.primary": "Download untuk Windows ↗",
+        "dl.secondary": "Lihat source di GitHub ↗",
+        "dl.meta": "Windows 10 / 11 · Tanpa trik instalasi · Tidak butuh API key AI untuk mulai.",
+        "coffee.title": "Suka pakai MT-CLIP?",
+        "coffee.copy": "Kalau ini menghemat waktumu dari scrubbing timeline berjam-jam, traktir saya kopi biar tetap dirawat dan gratis.",
+        "coffee.button": "Traktir kopi",
+        "footer.tagline": "AI Auto Clip Dari YouTube — 100% GRATIS (Sampai Saya Berubah Pikiran)",
+        "footer.coffee": "Traktir kopi ↗"
+      }
+    };
+
+    function applyLanguage(lang) {
+      if (!translations[lang]) return;
+      var dict = translations[lang];
+      document.querySelectorAll("[data-i18n]").forEach(function (el) {
+        var key = el.getAttribute("data-i18n");
+        if (dict[key] !== undefined) {
+          el.innerHTML = dict[key];
+        }
+      });
+      document.documentElement.lang = lang;
+      document.querySelectorAll(".lang-toggle button").forEach(function (btn) {
+        btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
+      });
+      try { localStorage.setItem("mtclip-lang", lang); } catch (e) {}
+    }
+
+    document.querySelectorAll(".lang-toggle button").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        applyLanguage(btn.getAttribute("data-lang"));
+      });
+    });
+
+    (function initLanguage() {
+      var saved = null;
+      try { saved = localStorage.getItem("mtclip-lang"); } catch (e) {}
+      if (saved && translations[saved]) applyLanguage(saved);
+    })();
+  </script>
+</body>
+</html>

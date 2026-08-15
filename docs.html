@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ============ SEO ============ -->
+  <title>MT-CLIP Documentation — Setup, Usage & Troubleshooting Guide</title>
+  <meta name="title" content="MT-CLIP Documentation — Setup, Usage & Troubleshooting Guide" />
+  <meta name="description" content="Full MT-CLIP documentation: system requirements, installing Ollama and FFmpeg, initial setup, how to generate clips, ViralEnhance trend sources, AI providers, GPU acceleration, and troubleshooting." />
+  <meta name="keywords" content="MT-CLIP documentation, MT-CLIP setup, MT-CLIP tutorial, Ollama FFmpeg setup, AI video clipper guide, ViralEnhance, MT-CLIP troubleshooting" />
+  <meta name="author" content="Dafa Prasetya" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#121317" />
+  <link rel="canonical" href="https://mt-clip.app/docs.html" />
+  <!-- NOTE: replace the canonical/og:url values with your real deployed domain before publishing. -->
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mt-clip.app/docs.html" />
+  <meta property="og:title" content="MT-CLIP Documentation — Setup, Usage & Troubleshooting Guide" />
+  <meta property="og:description" content="Everything you need to install and run MT-CLIP: requirements, dependencies, workflow, ViralEnhance, and troubleshooting." />
+  <meta property="og:image" content="https://mt-clip.app/logo.png" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="id_ID" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MT-CLIP Documentation" />
+  <meta name="twitter:description" content="Setup, usage, and troubleshooting guide for MT-CLIP — the local-AI YouTube clipper." />
+  <meta name="twitter:image" content="https://mt-clip.app/logo.png" />
+
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink: #121317;
+      --ink-hover: #1D1F26;
+      --ink-active: #241318;
+      --bg: #F6F6F8;
+      --card: #FFFFFF;
+      --border: #E7E8EC;
+      --text: #16181D;
+      --muted: #8A8D96;
+      --muted-2: #6A6D76;
+      --accent: #D62839;
+      --accent-dark: #B01E2E;
+      --accent-light: #FDECEC;
+      --success: #1F8A55;
+      --success-bg: #EAF7EF;
+
+      --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+      --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+      --max: 1180px;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+    img { max-width: 100%; display: block; }
+    .wrap { width: min(calc(100% - 40px), var(--max)); margin: 0 auto; }
+    :focus-visible { outline: 2.5px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+    /* ===================== NAV (same as index.html) ===================== */
+    nav {
+      position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+      width: min(calc(100% - 28px), 1100px); z-index: 100;
+      padding: 9px 10px 9px 16px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      border-radius: 17px; background: var(--ink);
+      box-shadow: 0 18px 50px rgba(18, 19, 23, .28);
+    }
+    .brand { display: flex; align-items: center; gap: 9px; font-family: var(--font-display); font-weight: 700; letter-spacing: -.01em; color: #fff; font-size: 14px; }
+    .brand-mark { width: 30px; height: 30px; border-radius: 8px; overflow: hidden; background: var(--accent); display: grid; place-items: center; }
+    .brand-mark img { width: 100%; height: 100%; object-fit: contain; padding: 3px; }
+    .nav-links { display: flex; gap: 2px; align-items: center; }
+    .nav-links a { color: #9A9CA6; padding: 9px 13px; border-radius: 10px; font-size: 12.5px; font-weight: 500; transition: .18s ease; white-space: nowrap; }
+    .nav-links a:hover, .nav-links a.current { color: #fff; background: var(--ink-hover); }
+    .lang-toggle { display: flex; align-items: center; background: rgba(255,255,255,.07); border-radius: 999px; padding: 3px; margin-left: 4px; gap: 2px; }
+    .lang-toggle button { border: none; background: transparent; color: #9A9CA6; font-size: 10.5px; font-weight: 700; letter-spacing: .03em; padding: 6px 10px; border-radius: 999px; transition: .18s ease; }
+    .lang-toggle button.active { background: var(--accent); color: #fff; }
+    .lang-toggle button:not(.active):hover { color: #fff; }
+    .nav-cta { background: var(--accent) !important; color: #fff !important; font-weight: 700 !important; padding: 10px 16px !important; margin-left: 6px; }
+    .nav-cta:hover { background: var(--accent-dark) !important; color: #fff !important; }
+
+    /* ===================== PAGE HEADER ===================== */
+    .doc-hero { padding: 168px 0 40px; }
+    .doc-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px;
+      border: 1px solid var(--border); border-radius: 999px; background: var(--card);
+      color: var(--muted-2); font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-light); }
+    .doc-hero h1 { font-family: var(--font-display); font-size: clamp(32px, 5vw, 54px); line-height: 1.03; letter-spacing: -.02em; margin: 16px 0 0; max-width: 720px; color: var(--ink); font-weight: 700; }
+    .doc-hero h1 span { color: var(--accent); }
+    .doc-hero p { color: var(--muted-2); font-size: 15px; line-height: 1.75; max-width: 640px; margin: 16px 0 0; }
+    .doc-hero-actions { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
+    .btn { border: 1.5px solid transparent; border-radius: 12px; padding: 12px 18px; font-weight: 700; font-size: 12.5px; transition: .2s ease; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); }
+    .btn-secondary { background: var(--card); color: var(--text); border-color: var(--border); }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent-dark); transform: translateY(-2px); }
+
+    /* ===================== LAYOUT: TOC + CONTENT ===================== */
+    .docs-shell { display: grid; grid-template-columns: 230px 1fr; gap: 40px; padding: 20px 0 100px; align-items: start; }
+    .toc { position: sticky; top: 100px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 16px; max-height: calc(100vh - 130px); overflow-y: auto; }
+    .toc-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 4px 10px 10px; }
+    .toc a { display: block; padding: 7px 10px; border-radius: 8px; font-size: 12.5px; color: var(--muted-2); font-weight: 500; }
+    .toc a:hover { background: var(--accent-light); color: var(--accent-dark); }
+
+    .doc-content { min-width: 0; }
+    .doc-section { padding: 34px 0; border-bottom: 1px solid var(--border); scroll-margin-top: 96px; }
+    .doc-section:last-child { border-bottom: none; }
+    .doc-kicker { font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; color: var(--accent-dark); background: var(--accent-light); border-radius: 6px; padding: 3px 8px; display: inline-block; margin-bottom: 12px; }
+    .doc-section h2 { font-family: var(--font-display); font-size: clamp(22px, 3vw, 30px); letter-spacing: -.015em; margin: 0 0 12px; color: var(--ink); font-weight: 700; }
+    .doc-section h3 { font-family: var(--font-display); font-size: 16.5px; letter-spacing: -.01em; margin: 26px 0 10px; color: var(--text); font-weight: 700; }
+    .doc-section p { color: var(--muted-2); line-height: 1.8; font-size: 14px; margin: 0 0 12px; }
+    .doc-section ul, .doc-section ol { color: var(--muted-2); line-height: 1.85; font-size: 14px; padding-left: 20px; margin: 0 0 14px; }
+    .doc-section li { margin-bottom: 4px; }
+    .doc-section li b, .doc-section li strong { color: var(--text); }
+    .doc-section a.inline-link { color: var(--accent-dark); font-weight: 600; border-bottom: 1px solid var(--accent-light); }
+    .doc-section a.inline-link:hover { border-bottom-color: var(--accent); }
+
+    .code {
+      background: var(--ink); color: #E8E9ED; border-radius: 12px; padding: 14px 16px;
+      font-family: var(--font-mono); font-size: 12.5px; line-height: 1.7; overflow-x: auto; margin: 10px 0 16px;
+    }
+    .code .muted { color: #8A8D96; }
+    .code .ok { color: #6FD3A0; }
+
+    .callout {
+      border: 1px solid var(--border); border-left: 3px solid var(--accent);
+      background: var(--accent-light); border-radius: 10px; padding: 12px 14px; margin: 14px 0;
+      font-size: 13px; color: var(--accent-dark); line-height: 1.7;
+    }
+    .callout.neutral { border-left-color: var(--muted); background: var(--bg); color: var(--muted-2); }
+    .callout.warn { border-left-color: var(--accent); }
+    .callout b { color: inherit; }
+
+    .spec-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+    .spec { border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; background: var(--card); }
+    .spec.rec { background: var(--ink); border-color: var(--ink); }
+    .spec h4 { margin: 0 0 12px; font-size: 13.5px; font-family: var(--font-display); color: var(--text); }
+    .spec.rec h4 { color: #fff; }
+    .spec-row { display: flex; justify-content: space-between; gap: 20px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 12.5px; }
+    .spec.rec .spec-row { border-bottom-color: rgba(255,255,255,.08); }
+    .spec-row:last-child { border-bottom: 0; }
+    .spec-row span { color: var(--muted); }
+    .spec.rec .spec-row span { color: #9A9CA6; }
+    .spec-row b { color: var(--text); }
+    .spec.rec .spec-row b { color: #fff; }
+
+    .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 16px; }
+    .chip { border: 1px solid var(--border); background: var(--card); border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 600; color: var(--text); }
+
+    .step-list { counter-reset: step; list-style: none; padding-left: 0; margin: 16px 0; }
+    .step-list li {
+      counter-increment: step; position: relative; padding: 6px 0 6px 34px; font-size: 13.5px; color: var(--text); font-weight: 500;
+    }
+    .step-list li::before {
+      content: counter(step, decimal-leading-zero);
+      position: absolute; left: 0; top: 4px; width: 24px; height: 24px; border-radius: 7px;
+      background: var(--accent-light); color: var(--accent-dark); font-family: var(--font-mono);
+      font-size: 10.5px; font-weight: 700; display: grid; place-items: center;
+    }
+
+    .pipeline { margin: 18px 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); overflow: hidden; }
+    .pipeline-step { display: flex; align-items: center; gap: 14px; padding: 12px 18px; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .pipeline-step:last-child { border-bottom: none; }
+    .pipeline-step .pipe-tc { font-family: var(--font-mono); font-size: 11px; color: var(--accent-dark); background: var(--accent-light); border-radius: 6px; padding: 3px 7px; min-width: 44px; text-align: center; }
+    .pipeline-step .pipe-label { font-weight: 700; color: var(--text); }
+
+    .table-wrap { overflow-x: auto; margin: 14px 0; }
+    table.doc-table { width: 100%; border-collapse: collapse; font-size: 13px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    table.doc-table th, table.doc-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    table.doc-table th { background: var(--bg); color: var(--muted-2); font-weight: 700; font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; }
+    table.doc-table tr:last-child td { border-bottom: none; }
+    table.doc-table td { color: var(--text); }
+
+    .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
+    .mini-card { border: 1px solid var(--border); border-radius: 14px; padding: 16px; background: var(--card); }
+    .mini-card h5 { margin: 0 0 6px; font-family: var(--font-display); font-size: 14px; color: var(--text); }
+    .mini-card p { margin: 0; font-size: 12.5px; }
+
+    footer { padding: 26px 0 44px; border-top: 1px solid var(--border); color: var(--muted); font-size: 11px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; align-items: center; flex-wrap: wrap; }
+    .footer-brand { color: var(--text); font-weight: 700; font-family: var(--font-display); }
+    .footer-links { display: flex; gap: 18px; }
+
+    [hidden] { display: none !important; }
+
+    @media (max-width: 980px) {
+      .docs-shell { grid-template-columns: 1fr; }
+      .toc { position: static; max-height: none; }
+      .spec-wrap, .card-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 860px) {
+      .nav-links a:not(.nav-cta):not(.lang-toggle-wrap) { display: none; }
+      .lang-toggle { margin-left: auto; }
+    }
+    @media (max-width: 560px) {
+      .wrap { width: min(calc(100% - 26px), var(--max)); }
+      nav { width: calc(100% - 18px); top: 10px; padding: 8px; }
+      .brand span.brand-name { display: none; }
+      .doc-hero { padding-top: 128px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="brand" href="index.html">
+      <span class="brand-mark"><img src="logo.png" alt="" /></span>
+      <span class="brand-name">MT-CLIP</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#features" data-i18n="nav.features">Features</a>
+      <a href="index.html#requirements" data-i18n="nav.requirements">Requirements</a>
+      <a href="docs.html" class="current" data-i18n="nav.docs">Docs</a>
+      <a class="nav-cta" href="index.html#download" data-i18n="nav.download">Download</a>
+      <div class="lang-toggle" role="group" aria-label="Language switch">
+        <button type="button" data-lang="en" class="active">EN</button>
+        <button type="button" data-lang="id">ID</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="doc-hero">
+      <div class="wrap">
+        <div class="doc-eyebrow"><span class="dot"></span> <span data-i18n="hero.eyebrow">Documentation</span></div>
+        <h1>
+          <span class="lang-en">Everything you need to run <span>MT-CLIP.</span></span>
+          <span class="lang-id" hidden>Semua yang kamu butuhkan untuk menjalankan <span>MT-CLIP.</span></span>
+        </h1>
+        <p>
+          <span class="lang-en">Requirements, dependencies, first-time setup, the full clip-generation workflow, ViralEnhance, and troubleshooting — all in one place.</span>
+          <span class="lang-id" hidden>Spesifikasi, dependensi, setup awal, alur lengkap pembuatan klip, ViralEnhance, dan troubleshooting — semua di satu halaman.</span>
+        </p>
+        <div class="doc-hero-actions">
+          <a class="btn btn-primary" href="https://github.com/dafaprasetya/MT-CLIP/releases/" target="_blank" rel="noopener">
+            <span class="lang-en">Download MT-CLIP ↗</span><span class="lang-id" hidden>Download MT-CLIP ↗</span>
+          </a>
+          <a class="btn btn-secondary" href="https://github.com/dafaprasetya/MT-CLIP" target="_blank" rel="noopener">
+            <span class="lang-en">View source on GitHub ↗</span><span class="lang-id" hidden>Lihat source di GitHub ↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap docs-shell">
+      <!-- ===================== TOC ===================== -->
+      <aside class="toc">
+        <div class="toc-label"><span class="lang-en">On this page</span><span class="lang-id" hidden>Di halaman ini</span></div>
+        <a href="#overview"><span class="lang-en">Overview</span><span class="lang-id" hidden>Ringkasan</span></a>
+        <a href="#features"><span class="lang-en">Features</span><span class="lang-id" hidden>Fitur</span></a>
+        <a href="#requirements"><span class="lang-en">System Requirements</span><span class="lang-id" hidden>Spesifikasi Sistem</span></a>
+        <a href="#what-you-need"><span class="lang-en">What You Need</span><span class="lang-id" hidden>Yang Dibutuhkan</span></a>
+        <a href="#setup"><span class="lang-en">Initial Setup</span><span class="lang-id" hidden>Setup Awal</span></a>
+        <a href="#usage"><span class="lang-en">How To Use</span><span class="lang-id" hidden>Cara Menggunakan</span></a>
+        <a href="#gallery"><span class="lang-en">Gallery</span><span class="lang-id" hidden>Gallery</span></a>
+        <a href="#ai-selection"><span class="lang-en">AI Clip Selection</span><span class="lang-id" hidden>Pemilihan Klip AI</span></a>
+        <a href="#viral-enhance"><span class="lang-en">ViralEnhance</span><span class="lang-id" hidden>ViralEnhance</span></a>
+        <a href="#ai-providers"><span class="lang-en">AI Providers</span><span class="lang-id" hidden>AI Provider</span></a>
+        <a href="#local-ai"><span class="lang-en">Local AI</span><span class="lang-id" hidden>AI Lokal</span></a>
+        <a href="#gpu-acceleration"><span class="lang-en">GPU Acceleration</span><span class="lang-id" hidden>Akselerasi GPU</span></a>
+        <a href="#processing-time"><span class="lang-en">Processing Time</span><span class="lang-id" hidden>Waktu Proses</span></a>
+        <a href="#troubleshooting"><span class="lang-en">Troubleshooting</span><span class="lang-id" hidden>Troubleshooting</span></a>
+        <a href="#release"><span class="lang-en">Release</span><span class="lang-id" hidden>Rilis</span></a>
+        <a href="#disclaimer"><span class="lang-en">Disclaimer</span><span class="lang-id" hidden>Disclaimer</span></a>
+        <a href="#license"><span class="lang-en">License</span><span class="lang-id" hidden>Lisensi</span></a>
+      </aside>
+
+      <!-- ===================== CONTENT ===================== -->
+      <div class="doc-content">
+
+        <!-- OVERVIEW -->
+        <section class="doc-section" id="overview">
+          <div class="lang-en">
+            <div class="doc-kicker">00:00 · GETTING STARTED</div>
+            <h2>Overview</h2>
+            <p>MT-CLIP is an application that automatically turns YouTube videos into short clips using AI. Simply provide a YouTube URL, choose your preferred settings, and MT-CLIP will find interesting moments and turn them into ready-to-use clips.</p>
+            <p>MT-CLIP is designed to keep the process as simple as possible — download, setup, and start creating clips.</p>
+            <div class="callout"><b>100% FREE</b> — until the developer changes their mind. Release ZIPs already contain everything MT-CLIP itself needs; you only need to install a few external dependencies (Ollama, FFmpeg) before running it.</div>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">00:00 · MULAI DI SINI</div>
+            <h2>Ringkasan</h2>
+            <p>MT-CLIP adalah aplikasi yang dapat mengubah video YouTube menjadi short clips secara otomatis menggunakan AI. Cukup masukkan link YouTube, pilih pengaturan yang kamu inginkan, dan MT-CLIP akan mencari momen menarik dari video kemudian membuatnya menjadi clip yang siap digunakan.</p>
+            <p>MT-CLIP dirancang agar prosesnya semudah mungkin — download, setup, dan langsung buat clip.</p>
+            <div class="callout"><b>100% GRATIS</b> — sampai developer berubah pikiran. Release ZIP sudah berisi semua yang dibutuhkan MT-CLIP sendiri; kamu hanya perlu install beberapa dependency eksternal (Ollama, FFmpeg) sebelum menjalankannya.</div>
+          </div>
+        </section>
+
+        <!-- FEATURES -->
+        <section class="doc-section" id="features">
+          <div class="lang-en">
+            <div class="doc-kicker">00:12 · CAPABILITIES</div>
+            <h2>Features</h2>
+            <ul>
+              <li>AI auto clip generation from YouTube</li>
+              <li>Automatically finds interesting moments</li>
+              <li>Local AI using Ollama</li>
+              <li>Support for multiple AI models</li>
+              <li>Generate multiple clips at once</li>
+              <li>Configurable clip count and duration</li>
+              <li>Landscape and Portrait / 9:16 output</li>
+              <li>Automatic subject tracking for portrait videos</li>
+              <li>Animated, customizable subtitles</li>
+              <li>Built-in gallery and automatic video processing</li>
+              <li>ViralEnhance for trend and topic analysis</li>
+              <li>GPU acceleration through Vulkan</li>
+              <li>Can run locally without paid AI APIs</li>
+            </ul>
+            <p><b>Trend sources supported by ViralEnhance:</b></p>
+            <div class="chip-row"><span class="chip">YouTube</span><span class="chip">Google Trends</span><span class="chip">Reddit</span><span class="chip">TikTok</span></div>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">00:12 · KEMAMPUAN</div>
+            <h2>Fitur</h2>
+            <ul>
+              <li>AI Auto Clip dari YouTube</li>
+              <li>Otomatis mencari momen menarik dari video</li>
+              <li>Local AI dengan Ollama</li>
+              <li>Support berbagai AI model</li>
+              <li>Generate beberapa clip sekaligus</li>
+              <li>Pengaturan jumlah dan durasi clip</li>
+              <li>Landscape dan Portrait / 9:16</li>
+              <li>Automatic subject tracking untuk portrait</li>
+              <li>Animated subtitle dan custom subtitle</li>
+              <li>Gallery untuk melihat hasil, automatic video processing</li>
+              <li>ViralEnhance untuk membantu mencari topik dan tren yang relevan</li>
+              <li>GPU acceleration melalui Vulkan</li>
+              <li>Dapat digunakan secara lokal tanpa API AI berbayar</li>
+            </ul>
+            <p><b>Sumber tren yang didukung ViralEnhance:</b></p>
+            <div class="chip-row"><span class="chip">YouTube</span><span class="chip">Google Trends</span><span class="chip">Reddit</span><span class="chip">TikTok</span></div>
+          </div>
+        </section>
+
+        <!-- SYSTEM REQUIREMENTS -->
+        <section class="doc-section" id="requirements">
+          <div class="lang-en">
+            <div class="doc-kicker">00:24 · HARDWARE</div>
+            <h2>System Requirements</h2>
+            <p>MT-CLIP can run on relatively modest hardware. However, AI processing and video processing can be resource-intensive — more RAM and a better GPU generally mean faster processing.</p>
+            <div class="spec-wrap">
+              <div class="spec">
+                <h4>Minimum</h4>
+                <div class="spec-row"><span>OS</span><b>Windows 10 / 11</b></div>
+                <div class="spec-row"><span>CPU</span><b>4 Cores</b></div>
+                <div class="spec-row"><span>RAM</span><b>8 GB</b></div>
+                <div class="spec-row"><span>GPU</span><b>Optional</b></div>
+                <div class="spec-row"><span>Storage</span><b>SSD recommended</b></div>
+                <div class="spec-row"><span>Network</span><b>Internet connection</b></div>
+              </div>
+              <div class="spec rec">
+                <h4>Recommended</h4>
+                <div class="spec-row"><span>CPU</span><b>6–8 Cores</b></div>
+                <div class="spec-row"><span>RAM</span><b>16 GB or more</b></div>
+                <div class="spec-row"><span>GPU</span><b>Dedicated, 6 GB+ VRAM</b></div>
+                <div class="spec-row"><span>Storage</span><b>SSD</b></div>
+              </div>
+            </div>
+            <h3>For faster processing</h3>
+            <p><b>RAM</b> — 8 GB is usable, 16 GB is recommended, 32 GB+ is great for long videos and heavier workloads.</p>
+            <p><b>GPU</b> — not required, but highly recommended. More VRAM generally provides a better experience with larger AI models (e.g. 8 GB / 12 GB / 16 GB VRAM).</p>
+            <h3>Vulkan</h3>
+            <p>If your GPU supports Vulkan, you can try running Ollama with Vulkan to utilize your GPU:</p>
+            <div class="code">set OLLAMA_VULKAN=1<br>ollama serve</div>
+            <div class="callout neutral">Vulkan performance varies depending on your GPU, drivers, Ollama version, and the AI model used.</div>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">00:24 · PERANGKAT KERAS</div>
+            <h2>Spesifikasi Sistem</h2>
+            <p>MT-CLIP dapat berjalan pada komputer dengan spesifikasi yang cukup sederhana. Namun, proses AI dan video processing cukup berat — semakin besar RAM dan semakin bagus GPU, semakin cepat prosesnya.</p>
+            <div class="spec-wrap">
+              <div class="spec">
+                <h4>Minimum</h4>
+                <div class="spec-row"><span>OS</span><b>Windows 10 / 11</b></div>
+                <div class="spec-row"><span>CPU</span><b>4 Core</b></div>
+                <div class="spec-row"><span>RAM</span><b>8 GB</b></div>
+                <div class="spec-row"><span>GPU</span><b>Opsional</b></div>
+                <div class="spec-row"><span>Storage</span><b>SSD disarankan</b></div>
+                <div class="spec-row"><span>Jaringan</span><b>Koneksi internet</b></div>
+              </div>
+              <div class="spec rec">
+                <h4>Direkomendasikan</h4>
+                <div class="spec-row"><span>CPU</span><b>6–8 Core</b></div>
+                <div class="spec-row"><span>RAM</span><b>16 GB atau lebih</b></div>
+                <div class="spec-row"><span>GPU</span><b>Dedicated, VRAM 6 GB+</b></div>
+                <div class="spec-row"><span>Storage</span><b>SSD</b></div>
+              </div>
+            </div>
+            <h3>Untuk hasil yang lebih cepat</h3>
+            <p><b>RAM</b> — 8 GB bisa digunakan, 16 GB recommended, 32 GB+ sangat nyaman untuk video panjang dan penggunaan berat.</p>
+            <p><b>GPU</b> — tidak wajib, tetapi sangat direkomendasikan. VRAM yang lebih besar akan lebih nyaman untuk menjalankan AI model yang lebih besar (contoh: 8 GB / 12 GB / 16 GB VRAM).</p>
+            <h3>Vulkan</h3>
+            <p>Jika GPU kamu mendukung Vulkan, kamu dapat mencoba menjalankan Ollama menggunakan Vulkan untuk memanfaatkan GPU:</p>
+            <div class="code">set OLLAMA_VULKAN=1<br>ollama serve</div>
+            <div class="callout neutral">Performa Vulkan berbeda-beda tergantung GPU, driver, versi Ollama, dan model AI yang digunakan.</div>
+          </div>
+        </section>
+
+        <!-- WHAT YOU NEED -->
+        <section class="doc-section" id="what-you-need">
+          <div class="lang-en">
+            <div class="doc-kicker">00:36 · DEPENDENCIES</div>
+            <h2>What You Need</h2>
+            <p>To use MT-CLIP from a release, you only need to prepare a few things.</p>
+
+            <h3>1. MT-CLIP</h3>
+            <p>Download the latest release from <a class="inline-link" href="https://github.com/dafaprasetya/MT-CLIP/releases/" target="_blank" rel="noopener">MT-CLIP Releases ↗</a> and extract the ZIP wherever you want.</p>
+            <div class="callout">You do not need to download MT-CLIP's internal components separately — the release ZIP already contains everything the app itself needs.</div>
+
+            <h3>2. Ollama</h3>
+            <p>Download and install <a class="inline-link" href="https://ollama.com/download/windows" target="_blank" rel="noopener">Ollama for Windows ↗</a>. Then open a terminal:</p>
+            <div class="code">ollama pull qwen2.5:7b</div>
+            <p>Check it installed correctly:</p>
+            <div class="code">ollama list</div>
+            <p>If <span class="chip" style="padding:2px 8px;">qwen2.5:7b</span> appears in the list, the model is ready. You're free to use another compatible model — <code>qwen2.5:7b</code> is just the default recommendation because it's relatively lightweight and runs well locally.</p>
+
+            <h3>3. FFmpeg</h3>
+            <p>Download <a class="inline-link" href="https://www.gyan.dev/ffmpeg/builds/" target="_blank" rel="noopener">FFmpeg Builds by Gyan ↗</a> — the <b>Full Build</b> is recommended. After installing, verify it:</p>
+            <div class="code">ffmpeg -version</div>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">00:36 · DEPENDENSI</div>
+            <h2>Yang Dibutuhkan</h2>
+            <p>Untuk menggunakan MT-CLIP dari release, kamu hanya perlu menyiapkan beberapa hal.</p>
+
+            <h3>1. MT-CLIP</h3>
+            <p>Download versi terbaru dari <a class="inline-link" href="https://github.com/dafaprasetya/MT-CLIP/releases/" target="_blank" rel="noopener">MT-CLIP Releases ↗</a> lalu extract ZIP ke folder yang kamu inginkan.</p>
+            <div class="callout">Tidak perlu mendownload file internal MT-CLIP secara terpisah — release ZIP sudah berisi semua yang dibutuhkan aplikasi.</div>
+
+            <h3>2. Ollama</h3>
+            <p>Download dan install <a class="inline-link" href="https://ollama.com/download/windows" target="_blank" rel="noopener">Ollama for Windows ↗</a>. Setelah install, buka terminal:</p>
+            <div class="code">ollama pull qwen2.5:7b</div>
+            <p>Kemudian cek:</p>
+            <div class="code">ollama list</div>
+            <p>Jika <span class="chip" style="padding:2px 8px;">qwen2.5:7b</span> muncul di daftar, berarti model sudah siap digunakan. Kamu bebas menggunakan AI model lain yang kompatibel — <code>qwen2.5:7b</code> digunakan sebagai rekomendasi default karena relatif ringan dan dapat dijalankan secara lokal.</p>
+
+            <h3>3. FFmpeg</h3>
+            <p>Download <a class="inline-link" href="https://www.gyan.dev/ffmpeg/builds/" target="_blank" rel="noopener">FFmpeg Builds by Gyan ↗</a>, disarankan menggunakan <b>Full Build</b>. Setelah install, cek:</p>
+            <div class="code">ffmpeg -version</div>
+          </div>
+        </section>
+
+        <!-- INITIAL SETUP -->
+        <section class="doc-section" id="setup">
+          <div class="lang-en">
+            <div class="doc-kicker">00:48 · FIRST RUN</div>
+            <h2>Initial Setup</h2>
+            <p>After preparing everything above:</p>
+            <ol class="step-list">
+              <li>Download MT-CLIP from the Releases page.</li>
+              <li>Extract the ZIP.</li>
+              <li>Install Ollama.</li>
+              <li>Download your preferred AI model.</li>
+              <li>Install FFmpeg.</li>
+              <li>Launch MT-CLIP.</li>
+              <li>Open <b>Settings</b>.</li>
+              <li>Check the AI configuration.</li>
+              <li>Configure the FFmpeg path if required.</li>
+              <li>Save your settings.</li>
+            </ol>
+            <p>MT-CLIP is now ready to use.</p>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">00:48 · PERTAMA KALI</div>
+            <h2>Setup Awal</h2>
+            <p>Setelah semua requirement di atas tersedia:</p>
+            <ol class="step-list">
+              <li>Download MT-CLIP dari halaman Release.</li>
+              <li>Extract file ZIP.</li>
+              <li>Install Ollama.</li>
+              <li>Download AI model yang ingin digunakan.</li>
+              <li>Install FFmpeg.</li>
+              <li>Jalankan MT-CLIP.</li>
+              <li>Buka <b>Settings</b>.</li>
+              <li>Pastikan konfigurasi AI sudah benar.</li>
+              <li>Masukkan path FFmpeg jika diperlukan.</li>
+              <li>Simpan pengaturan.</li>
+            </ol>
+            <p>Setelah itu MT-CLIP siap digunakan.</p>
+          </div>
+        </section>
+
+        <!-- HOW TO USE -->
+        <section class="doc-section" id="usage">
+          <div class="lang-en">
+            <div class="doc-kicker">01:00 · WORKFLOW</div>
+            <h2>How To Use</h2>
+
+            <h3>1. Enter a YouTube URL</h3>
+            <p>Open the MT-CLIP Dashboard and paste your YouTube URL:</p>
+            <div class="code">https://www.youtube.com/watch?v=xxxxxxxxxxx</div>
+
+            <h3>2. Configure your settings</h3>
+            <p>You can configure the AI model, language, number of clips, minimum/maximum duration, subtitles, portrait mode, subtitle style, and ViralEnhance. For your first run, the default settings should be enough.</p>
+
+            <h3>3. Generate clips</h3>
+            <p>Click <b>Create Clip</b>. MT-CLIP will automatically run through the full pipeline:</p>
+            <div class="pipeline">
+              <div class="pipeline-step"><span class="pipe-tc">00</span><span class="pipe-label">YouTube Video</span></div>
+              <div class="pipeline-step"><span class="pipe-tc">01</span><span class="pipe-label">Processing</span></div>
+              <div class="pipeline-step"><span class="pipe-tc">02</span><span class="pipe-label">AI Analysis</span></div>
+              <div class="pipeline-step"><span class="pipe-tc">03</span><span class="pipe-label">Find Best Moments</span></div>
+              <div class="pipeline-step"><span class="pipe-tc">04</span><span class="pipe-label">Create Clips</span></div>
+              <div class="pipeline-step"><span class="pipe-tc">05</span><span class="pipe-label">Add Subtitle</span></div>
+              <div class="pipeline-step"><span class="pipe-tc">06</span><span class="pipe-label">Portrait Version</span></div>
+              <div class="pipeline-step"><span class="pipe-tc">07</span><span class="pipe-label">Gallery</span></div>
+            </div>
+            <p>You just need to wait until the process finishes.</p>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">01:00 · ALUR KERJA</div>
+            <h2>Cara Menggunakan</h2>
+
+            <h3>1. Masukkan link YouTube</h3>
+            <p>Buka Dashboard MT-CLIP, masukkan link video YouTube:</p>
+            <div class="code">https://www.youtube.com/watch?v=xxxxxxxxxxx</div>
+
+            <h3>2. Atur pengaturan</h3>
+            <p>Kamu dapat mengatur AI Model, Bahasa, jumlah clip, durasi minimum/maksimum, subtitle, portrait mode, subtitle style, dan ViralEnhance. Kalau baru pertama kali menggunakan MT-CLIP, pengaturan default sudah cukup untuk mencoba.</p>
+
+            <h3>3. Buat clip</h3>
+            <p>Klik tombol <b>Buat Clip</b>. MT-CLIP akan otomatis menjalankan seluruh pipeline:</p>
+            <div class="pipeline">
+              <div class="pipeline-step"><span class="pipe-tc">00</span><span class="pipe-label">YouTube Video</span></div>
+              <div class="pipeline-step"><span class="pipe-tc">01</span><span class="pipe-label">Processing</span></div>
+              <div class="pipeline-step"><span class="pipe-tc">02</span><span class="pipe-label">AI Analysis</span></div>
+              <div class="pipeline-step"><span class="pipe-tc">03</span><span class="pipe-label">Find Best Moments</span></div>
+              <div class="pipeline-step"><span class="pipe-tc">04</span><span class="pipe-label">Create Clips</span></div>
+              <div class="pipeline-step"><span class="pipe-tc">05</span><span class="pipe-label">Add Subtitle</span></div>
+              <div class="pipeline-step"><span class="pipe-tc">06</span><span class="pipe-label">Portrait Version</span></div>
+              <div class="pipeline-step"><span class="pipe-tc">07</span><span class="pipe-label">Gallery</span></div>
+            </div>
+            <p>Kamu cukup menunggu sampai proses selesai.</p>
+          </div>
+        </section>
+
+        <!-- GALLERY -->
+        <section class="doc-section" id="gallery">
+          <div class="lang-en">
+            <div class="doc-kicker">01:15 · OUTPUT</div>
+            <h2>Gallery</h2>
+            <p>Once processing is complete, all generated clips can be viewed through the <b>Gallery</b>. MT-CLIP can generate two formats:</p>
+            <div class="card-grid">
+              <div class="mini-card"><h5>Landscape · 16:9</h5><p>Suitable for YouTube, standard video, and podcast clips.</p></div>
+              <div class="mini-card"><h5>Portrait · 9:16</h5><p>Suitable for TikTok, YouTube Shorts, and Instagram Reels.</p></div>
+            </div>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">01:15 · HASIL</div>
+            <h2>Gallery</h2>
+            <p>Setelah proses selesai, semua hasil clip dapat dilihat melalui <b>Gallery</b>. MT-CLIP dapat menghasilkan dua format:</p>
+            <div class="card-grid">
+              <div class="mini-card"><h5>Landscape · 16:9</h5><p>Cocok untuk YouTube, video biasa, dan podcast clips.</p></div>
+              <div class="mini-card"><h5>Portrait · 9:16</h5><p>Cocok untuk TikTok, YouTube Shorts, dan Instagram Reels.</p></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- AI CLIP SELECTION -->
+        <section class="doc-section" id="ai-selection">
+          <div class="lang-en">
+            <div class="doc-kicker">01:28 · HOW THE AI DECIDES</div>
+            <h2>AI Clip Selection</h2>
+            <p>The AI analyzes the video content and tries to find moments that have potential as short-form content. Factors it may consider:</p>
+            <div class="chip-row">
+              <span class="chip">Hook</span><span class="chip">Emotional impact</span><span class="chip">Interesting moments</span>
+              <span class="chip">Story climax</span><span class="chip">Humor</span><span class="chip">Plot twist</span>
+              <span class="chip">Educational value</span><span class="chip">Shareability</span><span class="chip">Context</span><span class="chip">Audience engagement</span>
+            </div>
+            <p>The AI also tries to avoid clips that are:</p>
+            <ul>
+              <li>Too short</li>
+              <li>Missing context</li>
+              <li>Cut in the middle of a statement</li>
+              <li>Missing a hook</li>
+              <li>Too similar to other clips</li>
+            </ul>
+            <div class="callout neutral">Results still depend on the source video, transcript, AI model, and the settings you choose.</div>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">01:28 · CARA AI MEMILIH</div>
+            <h2>AI Clip Selection</h2>
+            <p>AI akan menganalisis isi video dan mencoba menemukan bagian yang memiliki potensi menjadi short-form content. Beberapa faktor yang dapat dipertimbangkan:</p>
+            <div class="chip-row">
+              <span class="chip">Hook</span><span class="chip">Emotional impact</span><span class="chip">Momen menarik</span>
+              <span class="chip">Story climax</span><span class="chip">Humor</span><span class="chip">Plot twist</span>
+              <span class="chip">Nilai edukasi</span><span class="chip">Shareability</span><span class="chip">Konteks</span><span class="chip">Audience engagement</span>
+            </div>
+            <p>AI juga berusaha menghindari clip yang:</p>
+            <ul>
+              <li>Terlalu pendek</li>
+              <li>Tidak memiliki konteks</li>
+              <li>Terpotong di tengah pembicaraan</li>
+              <li>Tidak memiliki hook</li>
+              <li>Terlalu mirip dengan clip lainnya</li>
+            </ul>
+            <div class="callout neutral">Hasil terbaik tetap bergantung pada kualitas video, transcript, AI model, dan pengaturan yang digunakan.</div>
+          </div>
+        </section>
+
+        <!-- VIRALENHANCE -->
+        <section class="doc-section" id="viral-enhance">
+          <div class="lang-en">
+            <div class="doc-kicker">01:40 · OPTIONAL</div>
+            <h2>ViralEnhance</h2>
+            <p><b>ViralEnhance is optional.</b> It gives the AI additional information about topics and trends that are currently relevant, to help it judge whether a topic or discussion is relevant to current trends.</p>
+
+            <h3>YouTube</h3>
+            <p>MT-CLIP uses the <b>YouTube Data API v3</b>. To get an API key: open Google Cloud Console → create a project → enable YouTube Data API v3 → create an API key → enter it in MT-CLIP Settings.</p>
+            <div class="code">Settings<br>&nbsp;&nbsp;→ Trend Sources<br>&nbsp;&nbsp;&nbsp;&nbsp;→ YouTube API Key</div>
+
+            <h3>TikTok</h3>
+            <p>MT-CLIP uses RapidAPI to retrieve TikTok data. Register on RapidAPI → find the TikTok API being used → subscribe → copy the API key → enter it in Settings.</p>
+            <div class="code">Settings<br>&nbsp;&nbsp;→ Trend Sources<br>&nbsp;&nbsp;&nbsp;&nbsp;→ TikTok RapidAPI Key</div>
+            <div class="callout neutral">If no API key is provided, TikTok is simply skipped — everything else keeps working.</div>
+
+            <h3>Google Trends</h3>
+            <p>Used to retrieve information about currently popular topics. Configure the region via <b>Trend Region</b> (example: <code>ID</code>). No additional API key required.</p>
+
+            <h3>Reddit</h3>
+            <p>Can also be used as an additional source of information about trending topics. If Reddit is unavailable, MT-CLIP continues to work normally.</p>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">01:40 · OPSIONAL</div>
+            <h2>ViralEnhance</h2>
+            <p><b>ViralEnhance adalah fitur optional.</b> Fitur ini memberikan informasi tambahan kepada AI mengenai topik dan tren yang sedang relevan, membantu AI memahami apakah suatu topik atau pembahasan memiliki relevansi dengan tren saat ini.</p>
+
+            <h3>YouTube</h3>
+            <p>MT-CLIP menggunakan <b>YouTube Data API v3</b>. Cara mendapatkan API Key: buka Google Cloud Console → buat project → aktifkan YouTube Data API v3 → buat API Key → masukkan ke Settings MT-CLIP.</p>
+            <div class="code">Settings<br>&nbsp;&nbsp;→ Trend Sources<br>&nbsp;&nbsp;&nbsp;&nbsp;→ YouTube API Key</div>
+
+            <h3>TikTok</h3>
+            <p>MT-CLIP menggunakan RapidAPI untuk mendapatkan data TikTok. Register di RapidAPI → cari API TikTok yang digunakan → subscribe → copy API Key → masukkan ke Settings.</p>
+            <div class="code">Settings<br>&nbsp;&nbsp;→ Trend Sources<br>&nbsp;&nbsp;&nbsp;&nbsp;→ TikTok RapidAPI Key</div>
+            <div class="callout neutral">Jika API key tidak diisi, sumber TikTok akan dilewati — fitur lain tetap berjalan normal.</div>
+
+            <h3>Google Trends</h3>
+            <p>Digunakan untuk mendapatkan informasi mengenai topik yang sedang populer. Region dapat diatur melalui <b>Trend Region</b> (contoh: <code>ID</code>). Tidak membutuhkan API key tambahan.</p>
+
+            <h3>Reddit</h3>
+            <p>Dapat digunakan sebagai sumber informasi tambahan mengenai topik yang sedang ramai dibicarakan. Jika sumber Reddit tidak tersedia, MT-CLIP tetap dapat berjalan seperti biasa.</p>
+          </div>
+        </section>
+
+        <!-- AI PROVIDERS -->
+        <section class="doc-section" id="ai-providers">
+          <div class="lang-en">
+            <div class="doc-kicker">01:52 · CONFIGURATION</div>
+            <h2>AI Providers</h2>
+            <div class="code">Provider : Ollama<span class="muted">  (default)</span><br>Model    : qwen2.5:7b</div>
+            <p>MT-CLIP can also use other providers compatible with its configuration:</p>
+            <div class="chip-row">
+              <span class="chip">Ollama</span><span class="chip">OpenAI</span><span class="chip">OpenRouter</span>
+              <span class="chip">Gemini</span><span class="chip">LM Studio</span><span class="chip">Groq</span><span class="chip">OpenAI-compatible API</span>
+            </div>
+            <p>For free, local usage, <b>Ollama is the recommended choice.</b></p>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">01:52 · KONFIGURASI</div>
+            <h2>AI Provider</h2>
+            <div class="code">Provider : Ollama<span class="muted">  (default)</span><br>Model    : qwen2.5:7b</div>
+            <p>MT-CLIP juga dapat menggunakan provider lain yang kompatibel dengan konfigurasi aplikasi:</p>
+            <div class="chip-row">
+              <span class="chip">Ollama</span><span class="chip">OpenAI</span><span class="chip">OpenRouter</span>
+              <span class="chip">Gemini</span><span class="chip">LM Studio</span><span class="chip">Groq</span><span class="chip">OpenAI-compatible API</span>
+            </div>
+            <p>Untuk penggunaan gratis dan lokal, <b>Ollama merupakan pilihan yang direkomendasikan.</b></p>
+          </div>
+        </section>
+
+        <!-- LOCAL AI -->
+        <section class="doc-section" id="local-ai">
+          <div class="lang-en">
+            <div class="doc-kicker">02:02 · WHY LOCAL</div>
+            <h2>Local AI</h2>
+            <p>Using Ollama lets MT-CLIP run AI locally. Benefits:</p>
+            <ul>
+              <li>No API key required</li>
+              <li>No paid AI API required</li>
+              <li>Data can be processed locally</li>
+              <li>GPU acceleration available</li>
+              <li>Freedom to choose models</li>
+              <li>No dependency on cloud AI services</li>
+            </ul>
+            <div class="code">ollama pull qwen2.5:7b</div>
+            <p>Then in MT-CLIP:</p>
+            <div class="code">AI Provider → Ollama<br>AI Model    → qwen2.5:7b</div>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">02:02 · KENAPA LOKAL</div>
+            <h2>Local AI</h2>
+            <p>Menggunakan Ollama memungkinkan MT-CLIP menjalankan AI secara lokal. Keuntungannya:</p>
+            <ul>
+              <li>Tidak membutuhkan API key</li>
+              <li>Tidak perlu membayar API AI</li>
+              <li>Data dapat diproses secara lokal</li>
+              <li>Dapat menggunakan GPU</li>
+              <li>Bebas memilih model</li>
+              <li>Tidak bergantung pada layanan cloud AI</li>
+            </ul>
+            <div class="code">ollama pull qwen2.5:7b</div>
+            <p>Kemudian pada MT-CLIP:</p>
+            <div class="code">AI Provider → Ollama<br>AI Model    → qwen2.5:7b</div>
+          </div>
+        </section>
+
+        <!-- GPU ACCELERATION -->
+        <section class="doc-section" id="gpu-acceleration">
+          <div class="lang-en">
+            <div class="doc-kicker">02:12 · VULKAN</div>
+            <h2>GPU Acceleration</h2>
+            <p>A GPU is not required to run MT-CLIP. However, if your computer has a Vulkan-capable GPU, you can try using it to accelerate AI processing:</p>
+            <div class="code">set OLLAMA_VULKAN=1<br>ollama serve</div>
+            <p>Then launch MT-CLIP as usual.</p>
+            <div class="callout neutral">Vulkan results and performance gains vary by hardware and drivers. A GPU with more VRAM also makes it easier to run larger AI models.</div>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">02:12 · VULKAN</div>
+            <h2>Akselerasi GPU</h2>
+            <p>GPU tidak wajib untuk menjalankan MT-CLIP. Namun, jika komputer memiliki GPU yang mendukung Vulkan, kamu dapat mencoba menggunakannya untuk mempercepat AI processing:</p>
+            <div class="code">set OLLAMA_VULKAN=1<br>ollama serve</div>
+            <p>Kemudian jalankan MT-CLIP seperti biasa.</p>
+            <div class="callout neutral">Hasil dan peningkatan performa Vulkan dapat berbeda tergantung hardware dan driver. GPU dengan VRAM besar juga membuat penggunaan AI model yang lebih besar menjadi lebih memungkinkan.</div>
+          </div>
+        </section>
+
+        <!-- PROCESSING TIME -->
+        <section class="doc-section" id="processing-time">
+          <div class="lang-en">
+            <div class="doc-kicker">02:20 · EXPECTATIONS</div>
+            <h2>Processing Time</h2>
+            <p>Processing time depends on video duration and resolution, the AI model, CPU, RAM, GPU/VRAM, storage, number of clips, and your processing settings. Longer videos naturally take more time.</p>
+            <div class="spec-wrap">
+              <div class="spec rec" style="grid-column: 1 / -1;">
+                <h4>For faster processing</h4>
+                <div class="spec-row"><span>RAM</span><b>16 GB+</b></div>
+                <div class="spec-row"><span>GPU</span><b>Dedicated GPU</b></div>
+                <div class="spec-row"><span>VRAM</span><b>8 GB+</b></div>
+                <div class="spec-row"><span>Storage</span><b>SSD recommended</b></div>
+              </div>
+            </div>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">02:20 · EKSPEKTASI</div>
+            <h2>Waktu Proses</h2>
+            <p>Waktu processing tergantung pada durasi dan resolusi video, AI model, CPU, RAM, GPU/VRAM, storage, jumlah clip, dan pengaturan processing. Video yang panjang tentu membutuhkan waktu lebih lama.</p>
+            <div class="spec-wrap">
+              <div class="spec rec" style="grid-column: 1 / -1;">
+                <h4>Untuk hasil yang lebih cepat</h4>
+                <div class="spec-row"><span>RAM</span><b>16 GB+</b></div>
+                <div class="spec-row"><span>GPU</span><b>Dedicated GPU</b></div>
+                <div class="spec-row"><span>VRAM</span><b>8 GB+</b></div>
+                <div class="spec-row"><span>Storage</span><b>SSD disarankan</b></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TROUBLESHOOTING -->
+        <section class="doc-section" id="troubleshooting">
+          <div class="lang-en">
+            <div class="doc-kicker">02:30 · FIXES</div>
+            <h2>Troubleshooting</h2>
+
+            <h3>Ollama is not connecting</h3>
+            <p>Make sure Ollama is running. Try:</p>
+            <div class="code">ollama list</div>
+            <p>Make sure the selected model is installed:</p>
+            <div class="code">ollama pull qwen2.5:7b</div>
+
+            <h3>FFmpeg is not found</h3>
+            <p>Make sure FFmpeg is installed. Try:</p>
+            <div class="code">ffmpeg -version</div>
+            <p>If the command is not found, make sure FFmpeg is added to PATH or configure its location through Settings.</p>
+
+            <h3>MT-CLIP cannot generate clips</h3>
+            <p>Make sure: internet connection is available, the YouTube URL is valid, Ollama is running, the AI model is installed, FFmpeg is configured, and enough storage space is available. If the problem persists, check the application logs.</p>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">02:30 · PERBAIKAN</div>
+            <h2>Troubleshooting</h2>
+
+            <h3>Ollama tidak terhubung</h3>
+            <p>Pastikan Ollama sudah berjalan. Coba:</p>
+            <div class="code">ollama list</div>
+            <p>Pastikan model yang digunakan sudah tersedia:</p>
+            <div class="code">ollama pull qwen2.5:7b</div>
+
+            <h3>FFmpeg tidak ditemukan</h3>
+            <p>Pastikan FFmpeg sudah terinstall. Coba:</p>
+            <div class="code">ffmpeg -version</div>
+            <p>Jika command tidak ditemukan, pastikan FFmpeg sudah masuk ke PATH atau masukkan lokasi FFmpeg melalui Settings.</p>
+
+            <h3>MT-CLIP tidak dapat membuat clip</h3>
+            <p>Pastikan: internet tersedia, link YouTube valid, Ollama berjalan, AI model sudah tersedia, FFmpeg sudah terkonfigurasi, dan storage masih tersedia. Jika masih mengalami masalah, periksa log yang tersedia pada aplikasi.</p>
+          </div>
+        </section>
+
+        <!-- RELEASE -->
+        <section class="doc-section" id="release">
+          <div class="lang-en">
+            <div class="doc-kicker">02:38 · DOWNLOAD</div>
+            <h2>Release</h2>
+            <p>The latest version of MT-CLIP can be downloaded via GitHub Releases. Each release ZIP already contains the files required to run MT-CLIP.</p>
+            <div class="callout">You do not need to build the application from source if you only want to use the released app.</div>
+            <a class="btn btn-primary" href="https://github.com/dafaprasetya/MT-CLIP/releases/" target="_blank" rel="noopener">Download Latest Release ↗</a>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">02:38 · DOWNLOAD</div>
+            <h2>Rilis</h2>
+            <p>Versi terbaru MT-CLIP dapat di-download melalui GitHub Releases. Setiap release ZIP sudah berisi file yang diperlukan untuk menjalankan MT-CLIP.</p>
+            <div class="callout">Tidak perlu melakukan build dari source code jika hanya ingin menggunakan aplikasinya.</div>
+            <a class="btn btn-primary" href="https://github.com/dafaprasetya/MT-CLIP/releases/" target="_blank" rel="noopener">Download Rilis Terbaru ↗</a>
+          </div>
+        </section>
+
+        <!-- DISCLAIMER -->
+        <section class="doc-section" id="disclaimer">
+          <div class="lang-en">
+            <div class="doc-kicker">02:44 · READ THIS</div>
+            <h2>Disclaimer</h2>
+            <p>MT-CLIP is built to help with automated video editing and content creation. Make sure you have the appropriate rights or permission to process the videos you use.</p>
+            <p>Videos downloaded from YouTube remain subject to copyright law, YouTube's Terms of Service, platform rules, and content owner rights.</p>
+            <div class="callout warn">The developer is not responsible for the use of MT-CLIP to distribute copyrighted content or content that violates platform rules.</div>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">02:44 · BACA INI</div>
+            <h2>Disclaimer</h2>
+            <p>MT-CLIP dibuat untuk membantu proses editing dan content creation secara otomatis. Pastikan kamu memiliki hak atau izin yang sesuai terhadap video yang diproses.</p>
+            <p>Penggunaan video dari YouTube tetap tunduk pada hak cipta, YouTube Terms of Service, aturan platform, dan hak pemilik konten.</p>
+            <div class="callout warn">Developer tidak bertanggung jawab atas penggunaan MT-CLIP untuk mendistribusikan konten yang melanggar hak cipta atau aturan platform.</div>
+          </div>
+        </section>
+
+        <!-- LICENSE -->
+        <section class="doc-section" id="license">
+          <div class="lang-en">
+            <div class="doc-kicker">02:48 · LEGAL</div>
+            <h2>License</h2>
+            <p>See the <code>LICENSE</code> file in the <a class="inline-link" href="https://github.com/dafaprasetya/MT-CLIP" target="_blank" rel="noopener">MT-CLIP repository ↗</a> for information about the project's license.</p>
+            <p style="margin-top:28px; color:var(--muted); font-style:italic;">Made with too much coffee and questionable engineering decisions.</p>
+          </div>
+          <div class="lang-id" hidden>
+            <div class="doc-kicker">02:48 · LEGAL</div>
+            <h2>Lisensi</h2>
+            <p>Lihat file <code>LICENSE</code> pada <a class="inline-link" href="https://github.com/dafaprasetya/MT-CLIP" target="_blank" rel="noopener">repository MT-CLIP ↗</a> untuk informasi mengenai lisensi project.</p>
+            <p style="margin-top:28px; color:var(--muted); font-style:italic;">Report error or bug, email : m.dafaprasetya@prstya.my.id.</p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <div class="footer-brand">MT-CLIP</div>
+      <div><span class="lang-en">AI Auto Clip From YouTube — 100% FREE (Until I Change My Mind)</span><span class="lang-id" hidden>AI Auto Clip Dari YouTube — 100% GRATIS (Sampai Saya Berubah Pikiran)</span></div>
+      <div class="footer-links">
+        <a href="index.html"><span class="lang-en">Home</span><span class="lang-id" hidden>Beranda</span></a>
+        <a href="https://github.com/dafaprasetya/MT-CLIP" target="_blank" rel="noopener">GitHub ↗</a>
+        <a href="https://tiptap.gg/prstya" target="_blank" rel="noopener"><span class="lang-en">Buy me a coffee ↗</span><span class="lang-id" hidden>Traktir kopi ↗</span></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Language toggle: two parallel content blocks (.lang-en / .lang-id)
+    // are swapped by visibility — safer for long-form docs content than
+    // key/value innerHTML swaps.
+    function applyLanguage(lang) {
+      var showId = lang === "id";
+      document.querySelectorAll(".lang-en").forEach(function (el) { el.hidden = showId; });
+      document.querySelectorAll(".lang-id").forEach(function (el) { el.hidden = !showId; });
+      document.documentElement.lang = lang;
+      document.querySelectorAll(".lang-toggle button").forEach(function (btn) {
+        btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
+      });
+      try { localStorage.setItem("mtclip-lang", lang); } catch (e) {}
+    }
+
+    document.querySelectorAll(".lang-toggle button").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        applyLanguage(btn.getAttribute("data-lang"));
+      });
+    });
+
+    (function initLanguage() {
+      var saved = null;
+      try { saved = localStorage.getItem("mtclip-lang"); } catch (e) {}
+      if (saved === "id") applyLanguage("id");
+    })();
+
+    // Smooth-scroll with offset for the fixed nav.
+    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+      link.addEventListener("click", function (e) {
+        var id = link.getAttribute("href");
+        if (id.length < 2) return;
+        var target = document.querySelector(id);
+        if (!target) return;
+        e.preventDefault();
+        var top = target.getBoundingClientRect().top + window.pageYOffset - 96;
+        window.scrollTo({ top: top, behavior: "smooth" });
+        history.pushState(null, "", id);
+      });
+    });
+  </script>
+</body>
+</html>
